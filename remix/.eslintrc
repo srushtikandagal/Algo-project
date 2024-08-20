@@ -16,7 +16,8 @@
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
-            "impliedStrict": true
+            "impliedStrict": true,
+            "requireConfigFile": false
         },
         "ecmaVersion": 12
     },

@@ -34,7 +34,8 @@
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
       "impliedStrict": true,
-      "jsx": true
+      "jsx": true,
+      "requireConfigFile": false
     },
     "ecmaVersion": 12
   },

@@ -22,7 +22,7 @@
     "@mui/utils": "^5.11.11",
     "@remix-run/node": "^1.16.0",
     "@remix-run/react": "^1.16.0",
-    "@remix-run/serve": "^1.16.0",
+    "@remix-run/serve": "^1.16r.0",
     "@tabler/icons": "^2.7.0",
     "@tabler/icons-react": "^2.7.0",
     "apexcharts": "^3.37.1",
