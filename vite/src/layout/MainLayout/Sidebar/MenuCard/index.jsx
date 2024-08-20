@@ -107,7 +107,7 @@ const MenuCard = () => {
               sx={{ mt: 0 }}
               primary={
                 <Typography variant="subtitle1" sx={{ color: 'primary.800' }}>
-                  Get Extra Space
+                 Sensex & Nifty
                 </Typography>
               }
               secondary={<Typography variant="caption"> 28/23 GB</Typography>}
