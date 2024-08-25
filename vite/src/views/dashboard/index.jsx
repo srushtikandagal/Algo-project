@@ -42,6 +42,11 @@ const Dashboard = () => {
               </Grid>
               <Grid item sm={6} xs={12} md={6} lg={12}>
                 <TotalIncomeLightCard
+                sx={{
+                  background: 'linear-gradient(45deg, #ff6f00 90%, #ff8e53 80%)',
+                  color: '#fff'
+                }}
+                
                   {...{
                     isLoading: isLoading,
                     total: 203,
