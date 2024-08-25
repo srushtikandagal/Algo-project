@@ -10,7 +10,7 @@ export const initialState = {
   fontFamily: config.fontFamily,
   borderRadius: config.borderRadius,
   opened: true,
-  isUserAuthenticated: true // for authentication state management, default is false for now.
+  isUserAuthenticated: false // for authentication state management, default is false for now.
 };
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -38,11 +38,6 @@ const customizationReducer = (state = initialState, action) => {
       return {
         ...state,
         borderRadius: action.borderRadius
-      };
-    case actionTypes.IS_USER_AUTHENTICATED:
-      return {
-        ...state,
-        isUserAuthenticated: action.isUserAuthenticated
       };
     case actionTypes.SET_IS_USER_AUTHENTICATED:
       return {

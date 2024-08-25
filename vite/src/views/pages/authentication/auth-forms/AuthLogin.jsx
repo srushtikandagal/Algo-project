@@ -32,6 +32,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
+import { useNavigate } from 'react-router-dom';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -41,9 +42,11 @@ const AuthLogin = ({ ...others }) => {
   const customization = useSelector((state) => state.customization);
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(true);
+  const navigate = useNavigate();
 
   const googleHandler = async () => {
-    dispatch({ type: SET_IS_USER_AUTHENTICATED, opened: true });
+    dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
+    navigate('/');
     console.log('inside google login handler');
   };
 

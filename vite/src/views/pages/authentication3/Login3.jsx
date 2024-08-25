@@ -28,9 +28,9 @@ const Login = () => {
               <AuthCardWrapper>
                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                   <Grid item sx={{ mb: 3 }}>
-                    <Link to="#" aria-label="logo">
-                      <Logo />
-                    </Link>
+                    <Typography color="secondary.main" gutterBottom variant={downMD ? 'h3' : 'h2'}>
+                      Algo Trading
+                    </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Grid container direction={{ xs: 'column-reverse', md: 'row' }} alignItems="center" justifyContent="center">
