@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -25,12 +25,14 @@ import { Formik } from 'formik';
 
 // project imports
 import AnimateButton from 'ui-component/extended/AnimateButton';
+import { SET_IS_USER_AUTHENTICATED } from 'store/actions';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
+import { useNavigate } from 'react-router-dom';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -38,10 +40,14 @@ const AuthLogin = ({ ...others }) => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const customization = useSelector((state) => state.customization);
+  const dispatch = useDispatch();
   const [checked, setChecked] = useState(true);
+  const navigate = useNavigate();
 
   const googleHandler = async () => {
-    console.error('Login');
+    dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
+    navigate('/');
+    console.log('inside google login handler');
   };
 
   const [showPassword, setShowPassword] = useState(false);
