@@ -1,8 +1,10 @@
 import { lazy } from 'react';
+import { useSelector } from 'react-redux';
 
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
+import PrivateRoute from './privateRoute';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
@@ -11,13 +13,7 @@ const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
-// const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
-// const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
-
-// sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
-
-// ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
   path: '/',
@@ -25,7 +21,7 @@ const MainRoutes = {
   children: [
     {
       path: '/',
-      element: <DashboardDefault />
+      element: <PrivateRoute element={<DashboardDefault />} />
     },
     {
       path: 'dashboard',
@@ -41,7 +37,7 @@ const MainRoutes = {
       children: [
         {
           path: 'util-typography',
-          element: <UtilsTypography />
+          element: <PrivateRoute element={<UtilsTypography />} />
         }
       ]
     },
@@ -50,7 +46,7 @@ const MainRoutes = {
       children: [
         {
           path: 'util-color',
-          element: <UtilsColor />
+          element: <PrivateRoute element={<UtilsColor />} />
         }
       ]
     },
@@ -59,31 +55,13 @@ const MainRoutes = {
       children: [
         {
           path: 'util-shadow',
-          element: <UtilsShadow />
+          element: <PrivateRoute element={<UtilsShadow />} />
         }
       ]
     },
-    // {
-    //   path: 'icons',
-    //   children: [
-    //     {
-    //       path: 'tabler-icons',
-    //       element: <UtilsTablerIcons />
-    //     }
-    //   ]
-    // },
-    // {
-    //   path: 'icons',
-    //   children: [
-    //     {
-    //       path: 'material-icons',
-    //       element: <UtilsMaterialIcons />
-    //     }
-    //   ]
-    // },
     {
       path: 'sample-page',
-      element: <SamplePage />
+      element: <PrivateRoute element={<SamplePage />} />
     }
   ]
 };
