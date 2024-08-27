@@ -42,7 +42,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
           border={false}
           content={false}
           sx={{
-            bgcolor: 'primary.dark',
+            background: 'linear-gradient(45deg, #DE6262 30%, #FFB88C 90%)',
             color: '#fff',
             overflow: 'hidden',
             position: 'relative',
@@ -55,7 +55,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
               position: 'absolute',
               width: 210,
               height: 210,
-              background: theme.palette.primary[800],
+              background: 'linear-gradient(45deg, #DE6262 30%, #FFB88C 90%)',
               borderRadius: '50%',
               top: { xs: -105, sm: -85 },
               right: { xs: -140, sm: -95 }
@@ -65,7 +65,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
               position: 'absolute',
               width: 210,
               height: 210,
-              background: theme.palette.primary[800],
+              background: theme.palette.dark[800],
               borderRadius: '50%',
               top: { xs: -155, sm: -125 },
               right: { xs: -70, sm: -15 },
@@ -141,7 +141,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                           sx={{
                             fontSize: '1rem',
                             fontWeight: 500,
-                            color: 'primary.200'
+                            color: 'white'
                           }}
                         >
                           Total Order

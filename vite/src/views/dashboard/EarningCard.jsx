@@ -47,7 +47,7 @@ const EarningCard = ({ isLoading }) => {
           border={false}
           content={false}
           sx={{
-            bgcolor: 'secondary.dark',
+            background: 'linear-gradient(45deg, #6a11cb 30%, #2571fc 90%)',
             color: '#fff',
             overflow: 'hidden',
             position: 'relative',
@@ -163,7 +163,7 @@ const EarningCard = ({ isLoading }) => {
                   sx={{
                     fontSize: '1rem',
                     fontWeight: 500,
-                    color: 'secondary.200'
+                    color: 'secondary.400'
                   }}
                 >
                   Total Earning
