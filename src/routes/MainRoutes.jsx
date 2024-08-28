@@ -9,6 +9,10 @@ import PrivateRoute from './privateRoute';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
 
+// broker routing
+const BrokerDefault = Loadable(lazy(() => import('views/dashboard/broker')));
+const AddBroker = Loadable(lazy(() => import('views/dashboard/broker/AddBroker')));
+
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -28,7 +32,20 @@ const MainRoutes = {
       children: [
         {
           path: 'default',
-          element: <DashboardDefault />
+          element: <PrivateRoute element={<DashboardDefault />} />
+        },
+        {
+          path: 'broker',
+          children: [
+            {
+              path: '',
+              element: <PrivateRoute element={<BrokerDefault />} />
+            },
+            {
+              path: 'add-broker',
+              element: <PrivateRoute element={<AddBroker />} />
+            }
+          ]
         }
       ]
     },

@@ -1,70 +1,69 @@
 import { Link } from 'react-router-dom';
-
-// material-ui
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
-// project imports
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import Slide from '@mui/material/Slide'; // Import Slide for animation
 import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from '../authentication/auth-forms/AuthLogin';
 import Logo from 'ui-component/Logo';
 import AuthFooter from 'ui-component/cards/AuthFooter';
-
-// ================================|| AUTH3 - LOGIN ||================================ //
+import ImageCarousel from 'ui-component/ImageCarousel ';
+import ForgetPassword from '../authentication/auth-forms/ForgetPassword';
+import { useState } from 'react';
 
 const Login = () => {
+  const [isForgetPasswordShow, setisForgetPasswordShow] = useState(false);
   const downMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
+  const ShowFogetPasssWord = () => {
+    setisForgetPasswordShow(true);
+  };
 
   return (
     <AuthWrapper1>
-      <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
-        <Grid item xs={12}>
-          <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
-            <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
-              <AuthCardWrapper>
-                <Grid container spacing={2} alignItems="center" justifyContent="center">
-                  <Grid item sx={{ mb: 3 }}>
-                    <Typography color="secondary.main" gutterBottom variant={downMD ? 'h3' : 'h2'}>
-                      Algo Trading
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid container direction={{ xs: 'column-reverse', md: 'row' }} alignItems="center" justifyContent="center">
-                      <Grid item>
-                        <Stack alignItems="center" justifyContent="center" spacing={1}>
-                          <Typography color="secondary.main" gutterBottom variant={downMD ? 'h3' : 'h2'}>
-                            Hi, Welcome Back
-                          </Typography>
-                          <Typography variant="caption" fontSize="16px" textAlign={{ xs: 'center', md: 'inherit' }}>
-                            Enter your credentials to continue
-                          </Typography>
-                        </Stack>
-                      </Grid>
+      <Grid container direction="row" justifyContent="space-between" alignItems="stretch" sx={{ minHeight: '100vh' }}>
+        <ImageCarousel />
+
+        {/* Slide transition for AuthLogin and ForgetPassword components */}
+
+        <Grid item xs={12} md={7} bgcolor={'white'}>
+          <Grid direction="column" justifyContent="center" alignItems="center" sx={{ height: '100%' }}>
+            <Grid container sx={{ width: '100%' }} justifyContent="center">
+              {!isForgetPasswordShow && (
+                <AuthCardWrapper>
+                  <Grid>
+                    <Grid item xs={12}>
+                      <Typography color="secondary.main" gutterBottom variant={downMD ? 'h3' : 'h2'} textAlign={'center'}>
+                        Algo Trading
+                      </Typography>
+                      <Typography pb={2} textAlign={'center'} fontFamily={'sans-serif'}>
+                        Login into your account to start adding strategies to your trades!
+                      </Typography>
                     </Grid>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <AuthLogin />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Divider />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid item container direction="column" alignItems="center" xs={12}>
+                    <Grid item xs={12}>
+                      <AuthLogin setisForgetPasswordShow={setisForgetPasswordShow} />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Divider />
+                    </Grid>
+                    <Grid item xs={12} textAlign="center">
                       <Typography component={Link} to="/pages/register/register3" variant="subtitle1" sx={{ textDecoration: 'none' }}>
-                        Don&apos;t have an account?
+                        Don&apos;t have an account? Sign Up
                       </Typography>
                     </Grid>
                   </Grid>
-                </Grid>
-              </AuthCardWrapper>
+                </AuthCardWrapper>
+              )}
+              {isForgetPasswordShow && <ForgetPassword setisForgetPasswordShow={setisForgetPasswordShow} />}
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+      <AuthFooter />
     </AuthWrapper1>
   );
 };
