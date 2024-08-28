@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 // third party
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 
 // project imports
 import App from './App';
@@ -34,10 +35,14 @@ const store = configureStore({ reducer });
 
 // ==============================|| REACT DOM RENDER  ||============================== //
 
+const queryClient = new QueryClient();
+
 root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>
+  <QueryClientProvider store={store} client={queryClient}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </QueryClientProvider>
 );
 
 // If you want your app to work offline and load faster, you can change

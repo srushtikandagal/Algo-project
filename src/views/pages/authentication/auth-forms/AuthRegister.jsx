@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -32,8 +34,7 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
-// ===========================|| FIREBASE - REGISTER ||=========================== //
+import useSnackbar from 'ui-component/use-snackbar';
 
 const AuthRegister = ({ ...others }) => {
   const theme = useTheme();
@@ -41,13 +42,28 @@ const AuthRegister = ({ ...others }) => {
   const customization = useSelector((state) => state.customization);
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
-
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState();
+  const { showSnackbar, SnackbarComponent } = useSnackbar();
+  const navigate = useNavigate();
 
-  const googleHandler = async () => {
-    console.error('Register');
-  };
+  const mutation = useMutation({
+    mutationFn: async (userData) => {
+      const response = await axios.post('http://jetalgosoftware.com/api/auth/signup', userData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      showSnackbar('Registration successful!', 'success');
+      navigate('/login'); // Redirect to login or any other page
+    },
+    onError: (error) => {
+      showSnackbar(error.response?.data?.message || 'Registration failed. Please try again.', 'error');
+    }
+  });
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -63,10 +79,6 @@ const AuthRegister = ({ ...others }) => {
     setLevel(strengthColor(temp));
   };
 
-  useEffect(() => {
-    changePassword('123456');
-  }, []);
-
   return (
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
@@ -75,7 +87,7 @@ const AuthRegister = ({ ...others }) => {
             <Button
               variant="outlined"
               fullWidth
-              onClick={googleHandler}
+              onClick={() => console.error('Register')}
               size="large"
               sx={{
                 color: 'grey.700',
@@ -122,14 +134,33 @@ const AuthRegister = ({ ...others }) => {
 
       <Formik
         initialValues={{
-          email: '',
+          firstName: '',
+          lastName: '',
+          phoneNumber: '',
           password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          firstName: Yup.string().max(255).required('First Name is required'),
+          lastName: Yup.string().max(255).required('Last Name is required'),
+          phoneNumber: Yup.string().required('Phone Number is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
+        onSubmit={async (values, { setStatus, setSubmitting }) => {
+          try {
+            await mutation.mutateAsync({
+              firstName: values.firstName,
+              lastName: values.lastName,
+              mobile: values.phoneNumber,
+              password: values.password
+            });
+          } catch (error) {
+            console.log('error on signup', error.response?.data?.message);
+            setStatus({ success: false });
+          } finally {
+            setSubmitting(false);
+          }
+        }}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
@@ -139,42 +170,43 @@ const AuthRegister = ({ ...others }) => {
                   fullWidth
                   label="First Name"
                   margin="normal"
-                  name="fname"
+                  name="firstName"
                   type="text"
-                  defaultValue=""
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.firstName}
                   sx={{ ...theme.typography.customInput }}
                 />
+                {touched.firstName && errors.firstName && <FormHelperText error>{errors.firstName}</FormHelperText>}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label="Last Name"
                   margin="normal"
-                  name="lname"
+                  name="lastName"
                   type="text"
-                  defaultValue=""
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.lastName}
                   sx={{ ...theme.typography.customInput }}
                 />
+                {touched.lastName && errors.lastName && <FormHelperText error>{errors.lastName}</FormHelperText>}
               </Grid>
             </Grid>
-            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-register">Email Address / Username</InputLabel>
+            <FormControl fullWidth error={Boolean(touched.phoneNumber && errors.phoneNumber)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-phone-register">Phone Number</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-email-register"
-                type="email"
-                value={values.email}
-                name="email"
+                id="outlined-adornment-phone-register"
+                type="text"
+                value={values.phoneNumber}
+                name="phoneNumber"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                inputProps={{}}
+                label="Phone Number"
               />
-              {touched.email && errors.email && (
-                <FormHelperText error id="standard-weight-helper-text--register">
-                  {errors.email}
-                </FormHelperText>
-              )}
+              {touched.phoneNumber && errors.phoneNumber && <FormHelperText error>{errors.phoneNumber}</FormHelperText>}
             </FormControl>
-
             <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-password-register">Password</InputLabel>
               <OutlinedInput
@@ -182,12 +214,12 @@ const AuthRegister = ({ ...others }) => {
                 type={showPassword ? 'text' : 'password'}
                 value={values.password}
                 name="password"
-                label="Password"
                 onBlur={handleBlur}
                 onChange={(e) => {
                   handleChange(e);
                   changePassword(e.target.value);
                 }}
+                label="Password"
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -201,15 +233,9 @@ const AuthRegister = ({ ...others }) => {
                     </IconButton>
                   </InputAdornment>
                 }
-                inputProps={{}}
               />
-              {touched.password && errors.password && (
-                <FormHelperText error id="standard-weight-helper-text-password-register">
-                  {errors.password}
-                </FormHelperText>
-              )}
+              {touched.password && errors.password && <FormHelperText error>{errors.password}</FormHelperText>}
             </FormControl>
-
             {strength !== 0 && (
               <FormControl fullWidth>
                 <Box sx={{ mb: 2 }}>
@@ -226,40 +252,25 @@ const AuthRegister = ({ ...others }) => {
                 </Box>
               </FormControl>
             )}
-
-            <Grid container alignItems="center" justifyContent="space-between">
+            <Grid container alignItems="center" justifyContent="space-between" spacing={2}>
               <Grid item>
                 <FormControlLabel
-                  control={
-                    <Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />
-                  }
-                  label={
-                    <Typography variant="subtitle1">
-                      Agree with &nbsp;
-                      <Typography variant="subtitle1" component={Link} to="#">
-                        Terms & Condition.
-                      </Typography>
-                    </Typography>
-                  }
+                  control={<Checkbox checked={checked} onChange={() => setChecked(!checked)} />}
+                  label={<Typography variant="body2">I agree to the terms and conditions</Typography>}
                 />
               </Grid>
+              <Grid item>
+                <AnimateButton>
+                  <Button disableElevation fullWidth size="large" type="submit" variant="contained" color="primary" disabled={isSubmitting}>
+                    Register
+                  </Button>
+                </AnimateButton>
+              </Grid>
             </Grid>
-            {errors.submit && (
-              <Box sx={{ mt: 3 }}>
-                <FormHelperText error>{errors.submit}</FormHelperText>
-              </Box>
-            )}
-
-            <Box sx={{ mt: 2 }}>
-              <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                  Sign up
-                </Button>
-              </AnimateButton>
-            </Box>
           </form>
         )}
       </Formik>
+      <SnackbarComponent />
     </>
   );
 };

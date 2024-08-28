@@ -33,6 +33,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
 import { useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import useSnackbar from 'ui-component/use-snackbar';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -43,6 +46,21 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(true);
   const navigate = useNavigate();
+  const { showSnackbar, SnackbarComponent } = useSnackbar();
+
+  // useMutation for handling login API request
+  const loginMutation = useMutation((data) => axios.post('http://jetalgosoftware.com/api/auth/login', data), {
+    onSuccess: (response) => {
+      dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
+      showSnackbar('Login successful!', 'success');
+      // navigate('/');
+    },
+    onError: (error) => {
+      // Handle error (e.g., show error message)
+      showSnackbar('Login failed. Please check your credentials.', 'error');
+      console.error('Login failed:', error.response?.data || error.message);
+    }
+  });
 
   const googleHandler = async () => {
     dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
@@ -115,39 +133,56 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
         </Grid>
         <Grid item xs={12} container alignItems="center" justifyContent="center">
           <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">Sign in with Email address</Typography>
+            <Typography variant="subtitle1">Sign in with phoneNumber address</Typography>
           </Box>
         </Grid>
       </Grid>
-
       <Formik
         initialValues={{
-          email: '',
+          phoneNumber: '',
           password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          phoneNumber: Yup.string().required('Phone number is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
+        onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
+          // Trigger the mutation on form submit
+          loginMutation.mutate(
+            {
+              mobile: values.phoneNumber,
+              password: values.password
+            },
+            {
+              onError: (error) => {
+                setErrors({ submit: error.response?.data?.message || 'Something went wrong' });
+                setStatus({ success: false });
+              },
+              onSettled: () => {
+                setSubmitting(false);
+              }
+            }
+          );
+        }}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
-            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+            <FormControl fullWidth error={Boolean(touched.phoneNumber && errors.phoneNumber)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-phoneNumber-login">phoneNumber Address / Username</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-email-login"
-                type="email"
-                value={values.email}
-                name="email"
+                id="outlined-adornment-phoneNumber-login"
+                type="phoneNumber"
+                value={values.phoneNumber}
+                name="phoneNumber"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                label="Email Address / Username"
+                label="phoneNumber Address / Username"
                 inputProps={{}}
               />
-              {touched.email && errors.email && (
-                <FormHelperText error id="standard-weight-helper-text-email-login">
-                  {errors.email}
+              {touched.phoneNumber && errors.phoneNumber && (
+                <FormHelperText error id="standard-weight-helper-text-phoneNumber-login">
+                  {errors.phoneNumber}
                 </FormHelperText>
               )}
             </FormControl>
@@ -215,6 +250,7 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
           </form>
         )}
       </Formik>
+      <SnackbarComponent />
     </>
   );
 };
