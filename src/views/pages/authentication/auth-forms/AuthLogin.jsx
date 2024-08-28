@@ -144,7 +144,10 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          phoneNumber: Yup.string().required('Phone number is required'),
+          phoneNumber: Yup.string()
+            .required('Phone number is required')
+            .matches(/^[0-9]+$/, 'Must be a valid phone number')
+            .max(15),
           password: Yup.string().max(255).required('Password is required')
         })}
         onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
@@ -156,7 +159,6 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
             },
             {
               onError: (error) => {
-                setErrors({ submit: error.response?.data?.message || 'Something went wrong' });
                 setStatus({ success: false });
               },
               onSettled: () => {
@@ -186,7 +188,6 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
                 </FormHelperText>
               )}
             </FormControl>
-
             <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
               <OutlinedInput
@@ -239,7 +240,6 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
                 <FormHelperText error>{errors.submit}</FormHelperText>
               </Box>
             )}
-
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
                 <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">

@@ -143,7 +143,10 @@ const AuthRegister = ({ ...others }) => {
         validationSchema={Yup.object().shape({
           firstName: Yup.string().max(255).required('First Name is required'),
           lastName: Yup.string().max(255).required('Last Name is required'),
-          phoneNumber: Yup.string().required('Phone Number is required'),
+          phoneNumber: Yup.string()
+            .required('Phone number is required')
+            .matches(/^[0-9]+$/, 'Must be a valid phone number')
+            .max(15),
           password: Yup.string().max(255).required('Password is required')
         })}
         onSubmit={async (values, { setStatus, setSubmitting }) => {
