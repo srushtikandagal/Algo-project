@@ -36,7 +36,7 @@ import { useNavigate } from 'react-router-dom';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
-const AuthLogin = ({ ...others }) => {
+const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const customization = useSelector((state) => state.customization);
@@ -190,7 +190,12 @@ const AuthLogin = ({ ...others }) => {
                 }
                 label="Remember me"
               />
-              <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+              <Typography
+                variant="subtitle1"
+                color="secondary"
+                sx={{ textDecoration: 'none', cursor: 'pointer' }}
+                onClick={() => setisForgetPasswordShow(true)}
+              >
                 Forgot Password?
               </Typography>
             </Stack>

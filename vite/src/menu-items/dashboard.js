@@ -1,5 +1,6 @@
 // assets
 import { IconDashboard } from '@tabler/icons-react';
+import { Business } from '@mui/icons-material';
 
 // constant
 const icons = { IconDashboard };
@@ -17,6 +18,14 @@ const dashboard = {
       type: 'item',
       url: '/dashboard/default',
       icon: icons.IconDashboard,
+      breadcrumbs: false
+    },
+    {
+      id: 'broker',
+      title: 'Broker',
+      type: 'item',
+      url: '/dashboard/broker',
+      icon: Business,
       breadcrumbs: false
     }
   ]
