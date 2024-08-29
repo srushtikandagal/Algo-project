@@ -55,11 +55,10 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
   const loginMutation = useMutation((data) => axios.post('http://jetalgosoftware.com/api/auth/login', data), {
     onSuccess: (response) => {
       dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
+      navigate('/');
       showSnackbar('Login successful!', 'success');
-      // navigate('/');
     },
     onError: (error) => {
-      // Handle error (e.g., show error message)
       showSnackbar('Login failed. Please check your credentials.', 'error');
       console.error('Login failed:', error.response?.data || error.message);
     }
