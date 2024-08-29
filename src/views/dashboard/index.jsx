@@ -7,10 +7,10 @@ import TotalOrderLineChartCard from './TotalOrderLineChartCard';
 import TotalIncomeDarkCard from './TotalIncomeDarkCard';
 import TotalIncomeLightCard from './TotalIncomeLightCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
-import RiskDisclosuresModal from 'views/Modal/RiskDisclosures';
 import { gridSpacing } from 'store/constant';
 import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
 import { setIsModalOpen } from '../../store/actions';
+import RiskDisclosuresModal from './components/RiskDisclosuresModal';
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
