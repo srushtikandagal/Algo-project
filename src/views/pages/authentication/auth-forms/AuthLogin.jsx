@@ -37,6 +37,9 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useSnackbar from 'ui-component/use-snackbar';
 
+// store
+import { setIsModalOpen } from 'store/actions';
+
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
@@ -64,6 +67,7 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
 
   const googleHandler = async () => {
     dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
+    dispatch(setIsModalOpen(true));
     navigate('/');
     console.log('inside google login handler');
   };

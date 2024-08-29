@@ -1,8 +1,5 @@
-// project imports
-import config from 'config';
-
-// action - state management
 import * as actionTypes from './actions';
+import config from 'config';
 
 export const initialState = {
   isOpen: [], // for active default menu
@@ -10,19 +7,16 @@ export const initialState = {
   fontFamily: config.fontFamily,
   borderRadius: config.borderRadius,
   opened: true,
-  isUserAuthenticated: false // for authentication state management, default is false for now.
+  isUserAuthenticated: false,
+  isModalOpen: false // Add this line for modal state
 };
 
-// ==============================|| CUSTOMIZATION REDUCER ||============================== //
-
 const customizationReducer = (state = initialState, action) => {
-  let id;
   switch (action.type) {
     case actionTypes.MENU_OPEN:
-      id = action.id;
       return {
         ...state,
-        isOpen: [id]
+        isOpen: [action.id]
       };
     case actionTypes.SET_MENU:
       return {
@@ -44,7 +38,11 @@ const customizationReducer = (state = initialState, action) => {
         ...state,
         isUserAuthenticated: action.isUserAuthenticated
       };
-
+    case actionTypes.SET_IS_MODAL_OPEN: // Handle modal state
+      return {
+        ...state,
+        isModalOpen: action.isOpen
+      };
     default:
       return state;
   }
