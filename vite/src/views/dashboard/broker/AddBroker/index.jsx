@@ -12,7 +12,7 @@ const BrokerPage = () => {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container>
       <Grid item xs={12} md={7.5}>
         <BrokerList onSelectBroker={handleSelectBroker} selectedBrokerId={selectedBroker?.id} />
       </Grid>

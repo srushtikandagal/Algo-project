@@ -29,15 +29,15 @@ const Index = ({ text }) => {
       justifyContent="center"
       sx={{
         minHeight: '80vh',
-        pt: 5,
+        pt: 2,
         borderLeft: 1,
         borderColor: 'grey.400', // MUI's color system for a gray color,
         height: 'FitScreen'
       }}
     >
       {' '}
-      <Typography textAlign={'left'} px={5} fontSize={20} fontWeight={500} color={'#123591'} width={'100%'}>
-        Broker
+      <Typography textAlign={'left'} px={3} fontSize={20} fontWeight={500} color={'#123591'} width={'100%'}>
+        Brokers
       </Typography>
       <Grid item xs={12} md={6} textAlign="center">
         {/* Center the image */}
