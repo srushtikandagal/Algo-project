@@ -22,7 +22,7 @@ const dashboard = {
     },
     {
       id: 'broker',
-      title: 'Broker',
+      title: 'Brokers',
       type: 'item',
       url: '/dashboard/broker',
       icon: Business,

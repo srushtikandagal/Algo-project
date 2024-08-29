@@ -34,6 +34,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Google from 'assets/images/icons/social-google.svg';
 import { useNavigate } from 'react-router-dom';
 
+// store
+import { setIsModalOpen } from 'store/actions';
+
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
@@ -46,6 +49,7 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
 
   const googleHandler = async () => {
     dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
+    dispatch(setIsModalOpen(true));
     navigate('/');
     console.log('inside google login handler');
   };

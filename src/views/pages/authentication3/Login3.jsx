@@ -1,27 +1,25 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+// MUI
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import Slide from '@mui/material/Slide'; // Import Slide for animation
-import AuthWrapper1 from '../AuthWrapper1';
-import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from '../authentication/auth-forms/AuthLogin';
-import Logo from 'ui-component/Logo';
+
+// assets
 import AuthFooter from 'ui-component/cards/AuthFooter';
 import ImageCarousel from 'ui-component/ImageCarousel ';
 import ForgetPassword from '../authentication/auth-forms/ForgetPassword';
-import { useState } from 'react';
+import AuthWrapper1 from '../AuthWrapper1';
+import AuthCardWrapper from '../AuthCardWrapper';
 
 const Login = () => {
   const [isForgetPasswordShow, setisForgetPasswordShow] = useState(false);
   const downMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
-
-  const ShowFogetPasssWord = () => {
-    setisForgetPasswordShow(true);
-  };
 
   return (
     <AuthWrapper1>
