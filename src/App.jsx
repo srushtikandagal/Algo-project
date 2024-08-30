@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 
-
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
 
@@ -18,7 +17,6 @@ import NavigationScroll from 'layout/NavigationScroll';
 
 const App = () => {
   const customization = useSelector((state) => state.customization);
- 
 
   return (
     <StyledEngineProvider injectFirst>

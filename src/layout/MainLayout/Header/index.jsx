@@ -7,7 +7,6 @@ import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 
 // project imports
-import LogoSection from '../LogoSection';
 import SearchSection from './SearchSection';
 import NotificationSection from './NotificationSection';
 import ProfileSection from './ProfileSection';
@@ -32,8 +31,8 @@ const Header = ({ handleLeftDrawerToggle }) => {
           }
         }}
       >
-        <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
-          <LogoSection />
+        <Box component="span" sx={{ display: { xs: 'none', md: 'block', font: 'menu', color: theme.palette.secondary.dark }, flexGrow: 1 }}>
+          <p>JET ALGO TRADING</p>
         </Box>
         <ButtonBase sx={{ borderRadius: '8px', overflow: 'hidden' }}>
           <Avatar
