@@ -21,7 +21,7 @@ export const theme = (customization) => {
     heading: color.grey900,
     paper: color.paper,
     backgroundDefault: color.paper,
-    background: color.primaryLight,
+    // background: color.primaryLight,
     darkTextPrimary: color.grey700,
     darkTextSecondary: color.grey500,
     textDark: color.grey900,
@@ -61,7 +61,7 @@ export const theme = (customization) => {
             boxShadow: 'none',
             '&:hover': {
               boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
-              background: color.primaryDark,
+              background: color.primaryDark
             }
           },
           containedPrimary: {
@@ -80,7 +80,7 @@ export const theme = (customization) => {
             boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
             overflow: 'hidden',
             '& .MuiCardContent-root': {
-              padding: '24px',
+              padding: '24px'
             }
           }
         }

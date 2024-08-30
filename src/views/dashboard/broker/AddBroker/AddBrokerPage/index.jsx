@@ -24,15 +24,12 @@ const Index = ({ text }) => {
 
   return (
     <Grid
-      container
       spacing={gridSpacing}
       justifyContent="center"
       sx={{
-        minHeight: '80vh',
-        pt: 5,
+        minHeight: '82vh',
         borderLeft: 1,
-        borderColor: 'grey.400', // MUI's color system for a gray color,
-        height: 'FitScreen',
+        borderColor: '#e0e0e0', // MUI's color system for a gray color,
         display: { xs: 'none', sm: 'none', md: 'block' }
       }}
     >
