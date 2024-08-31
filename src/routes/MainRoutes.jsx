@@ -13,6 +13,9 @@ const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
 const BrokerDefault = Loadable(lazy(() => import('views/dashboard/broker')));
 const AddBroker = Loadable(lazy(() => import('views/dashboard/broker/AddBroker')));
 
+// User Profile
+const UserProfile = Loadable(lazy(() => import('../views/pages/userProfile/UserProfile')));
+
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -55,6 +58,15 @@ const MainRoutes = {
         {
           path: 'util-typography',
           element: <PrivateRoute element={<UtilsTypography />} />
+        }
+      ]
+    },
+    {
+      path: 'profile',
+      children: [
+        {
+          path: '',
+          element: <UserProfile />
         }
       ]
     },
