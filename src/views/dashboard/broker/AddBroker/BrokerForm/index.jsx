@@ -4,14 +4,31 @@ import { YouTube } from '@mui/icons-material';
 
 const BrokerForm = ({ selectedBroker }) => {
   const [clientId, setClientId] = useState('');
+  const [formFields, setFormFields] = useState({});
+
+  const handleInputChange = (field, value) => {
+    setFormFields((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = () => {
     // Handle form submission
-    console.log('Client ID:', clientId);
+    console.log('Form Data:', formFields);
   };
 
   return (
-    <Grid container direction="column" spacing={2} sx={{ width: '100%', px: { md: 5 } }} justifyContent="center">
+    <Grid
+      container
+      direction="column"
+      spacing={2}
+      sx={{
+        width: '100%',
+        px: { md: 3 },
+        minHeight: '82vh',
+        borderLeft: 1,
+        borderColor: '#e0e0e0',
+        pt: { xs: 3, md: 0 }
+      }}
+    >
       {/* Title and Broker Info */}
       <Grid item xs={12}>
         <Typography variant="h6" gutterBottom fontSize={18} fontWeight={700}>
@@ -34,9 +51,11 @@ const BrokerForm = ({ selectedBroker }) => {
         </Box>
       </Grid>
 
-      {/* Client ID Input */}
+      {/* Dynamic Input Fields */}
       <Grid item xs={12}>
-        <TextField fullWidth label="Client ID" value={clientId} onChange={(e) => setClientId(e.target.value)} sx={{ mt: 2 }} />
+        {selectedBroker.requiredFields.map((field, index) => (
+          <TextField key={index} fullWidth label={field} sx={{ mt: 2 }} onChange={(e) => handleInputChange(field, e.target.value)} />
+        ))}
       </Grid>
 
       {/* Submit Button */}
