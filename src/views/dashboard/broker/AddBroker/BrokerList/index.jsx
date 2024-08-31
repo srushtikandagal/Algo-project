@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Box, Typography, TextField, Avatar, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ListHeader from './ListHeader'; // Assume ListHeader component is correctly implemented
@@ -37,6 +37,11 @@ const brokers = [
 ];
 
 const BrokerList = ({ onSelectBroker, selectedBrokerId }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Filter brokers based on the search term
+  const filteredBrokers = brokers.filter((broker) => broker.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
   return (
     <Grid container direction="column" spacing={3} sx={{ width: '100%' }}>
       {/* Broker List Header */}
@@ -50,6 +55,8 @@ const BrokerList = ({ onSelectBroker, selectedBrokerId }) => {
           placeholder="Search Brokers"
           fullWidth
           variant="outlined"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -69,62 +76,69 @@ const BrokerList = ({ onSelectBroker, selectedBrokerId }) => {
 
       {/* Brokers List */}
       <Grid item xs={12}>
-        <Typography variant="h5" color="textSecondary" sx={{ mb: 2 }}>
-          Popular Brokers
-        </Typography>
-        <Box
-          display="grid"
-          gap={2}
-          sx={{
-            gridTemplateColumns: {
-              xs: 'repeat(3, 1fr)', // 2 columns on extra-small screens
-              sm: 'repeat(4, 1fr)', // 3 columns on small screens
-              md: 'repeat(5, 1fr)', // 4 columns on medium screens
-              lg: 'repeat(6, 1fr)' // 5 columns on large screens
-            }
-          }}
-        >
-          {brokers.map((broker) => (
+        {filteredBrokers.length === 0 ? (
+          <Typography variant="h6" color="textSecondary" align="center">
+            No brokers found
+          </Typography>
+        ) : (
+          <>
+            <Typography variant="h5" color="textSecondary" sx={{ mb: 2 }}>
+              Popular Brokers
+            </Typography>
             <Box
-              key={broker.id}
-              onClick={() => onSelectBroker(broker)}
+              display="grid"
+              gap={2}
               sx={{
-                cursor: 'pointer',
-                textAlign: 'center',
-                width: 70,
-                height: 'auto',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-
-                borderRadius: '50%'
+                gridTemplateColumns: {
+                  xs: 'repeat(3, 1fr)', // 2 columns on extra-small screens
+                  sm: 'repeat(4, 1fr)', // 3 columns on small screens
+                  md: 'repeat(5, 1fr)', // 4 columns on medium screens
+                  lg: 'repeat(6, 1fr)' // 5 columns on large screens
+                }
               }}
             >
-              <Avatar
-                alt={broker.name}
-                src={broker.icon}
-                sx={{
-                  bgcolor: 'white',
-                  width: 60,
-                  height: 60,
-                  mb: 1,
-                  p: 1,
-                  borderRadius: '50%', // Ensure the avatar is rounded
-                  objectFit: 'cover', // Make sure the image covers the entire avatar
-                  border: `3.5px solid ${selectedBrokerId === broker.id ? 'skyblue' : 'gray'}`,
-                  transition: 'border-color 0.3s ease', // Smooth transition effect
-                  '&:hover': {
-                    borderColor: 'primary.main' // Change border color on hover
-                  }
-                }}
-              />
-              <Typography variant="subtitle2" color="textPrimary" fontWeight="500" fontSize={14}>
-                {broker.name}
-              </Typography>
+              {filteredBrokers.map((broker) => (
+                <Box
+                  key={broker.id}
+                  onClick={() => onSelectBroker(broker)}
+                  sx={{
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    width: 70,
+                    height: 'auto',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50%'
+                  }}
+                >
+                  <Avatar
+                    alt={broker.name}
+                    src={broker.icon}
+                    sx={{
+                      bgcolor: 'white',
+                      width: 60,
+                      height: 60,
+                      mb: 1,
+                      p: 1,
+                      borderRadius: '50%', // Ensure the avatar is rounded
+                      objectFit: 'cover', // Make sure the image covers the entire avatar
+                      border: `3.5px solid ${selectedBrokerId === broker.id ? 'skyblue' : 'gray'}`,
+                      transition: 'border-color 0.3s ease', // Smooth transition effect
+                      '&:hover': {
+                        borderColor: 'primary.main' // Change border color on hover
+                      }
+                    }}
+                  />
+                  <Typography variant="subtitle2" color="textPrimary" fontWeight="500" fontSize={14}>
+                    {broker.name}
+                  </Typography>
+                </Box>
+              ))}
             </Box>
-          ))}
-        </Box>
+          </>
+        )}
       </Grid>
     </Grid>
   );
