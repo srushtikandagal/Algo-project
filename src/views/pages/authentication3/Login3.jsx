@@ -49,7 +49,7 @@ const Login = () => {
                       <Divider />
                     </Grid>
                     <Grid item xs={12} textAlign="center">
-                      <Typography component={Link} to="/pages/register/register3" variant="subtitle1" sx={{ textDecoration: 'none' }}>
+                      <Typography component={Link} to="/register" variant="subtitle1" sx={{ textDecoration: 'none' }}>
                         Don&apos;t have an account? Sign Up
                       </Typography>
                     </Grid>

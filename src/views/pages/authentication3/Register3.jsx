@@ -49,8 +49,8 @@ const Register = () => {
                     <Divider />
                   </Grid>
                   <Grid item xs={12} textAlign="center">
-                    <Typography component={Link} to="/pages/login/login3" variant="subtitle1" sx={{ textDecoration: 'none' }}>
-                      Don&apos;t have an account? Sign Up
+                    <Typography component={Link} to="/login" variant="subtitle1" sx={{ textDecoration: 'none' }}>
+                      Already have an account? Sign Up
                     </Typography>
                   </Grid>
                 </Grid>

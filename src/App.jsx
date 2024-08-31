@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 
 import { ThemeProvider } from '@mui/material/styles';
@@ -12,11 +12,24 @@ import themes from 'themes';
 
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
+import { useEffect } from 'react';
+import { SET_IS_USER_AUTHENTICATED } from 'store/actions';
 
 // ==============================|| APP ||============================== //
 
 const App = () => {
   const customization = useSelector((state) => state.customization);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    console.log('Token from local storage:', token); // Debugging log
+    if (token) {
+      dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
+    } else {
+      dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: false });
+    }
+  }, [dispatch]);
 
   return (
     <StyledEngineProvider injectFirst>

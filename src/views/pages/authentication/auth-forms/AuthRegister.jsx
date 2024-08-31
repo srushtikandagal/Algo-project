@@ -58,6 +58,7 @@ const AuthRegister = ({ ...others }) => {
     },
     onSuccess: () => {
       showSnackbar('Registration successful!', 'success');
+      localStorage.setItem('authToken', 'kjsdbvbdbdbvn');
       navigate('/login'); // Redirect to login or any other page
     },
     onError: (error) => {
