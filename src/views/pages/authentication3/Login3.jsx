@@ -13,7 +13,7 @@ import AuthLogin from '../authentication/auth-forms/AuthLogin';
 // assets
 import AuthFooter from 'ui-component/cards/AuthFooter';
 import ImageCarousel from 'ui-component/ImageCarousel ';
-import ForgetPassword from '../authentication/auth-forms/ForgetPassword';
+import ForgetPasswordPage from '../forgetPassword/ForgetPasswordPage';
 import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 
@@ -56,7 +56,7 @@ const Login = () => {
                   </Grid>
                 </AuthCardWrapper>
               )}
-              {isForgetPasswordShow && <ForgetPassword setisForgetPasswordShow={setisForgetPasswordShow} />}
+              {isForgetPasswordShow && <ForgetPasswordPage setisForgetPasswordShow={setisForgetPasswordShow} />}
             </Grid>
           </Grid>
         </Grid>
