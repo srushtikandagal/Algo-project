@@ -55,6 +55,7 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
   const loginMutation = useMutation((data) => axios.post('http://jetalgosoftware.com/api/auth/login', data), {
     onSuccess: (response) => {
       dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
+      localStorage.setItem('authToken', 'kjsdbvbdbdbvn');
       navigate('/');
       showSnackbar('Login successful!', 'success');
     },
@@ -67,6 +68,7 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
   const googleHandler = async () => {
     dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
     dispatch(setIsModalOpen(true));
+    localStorage.setItem('authToken', 'kjsdbvbdbdbvn');
     navigate('/');
     console.log('inside google login handler');
   };
