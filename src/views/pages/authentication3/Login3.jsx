@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import AuthLogin from '../authentication/auth-forms/AuthLogin';
 
 // assets
-import AuthFooter from 'ui-component/cards/AuthFooter';
 import ImageCarousel from 'ui-component/ImageCarousel ';
 import ForgetPasswordPage from '../forgetPassword/ForgetPasswordPage';
 import AuthWrapper1 from '../AuthWrapper1';
@@ -61,7 +60,6 @@ const Login = () => {
           </Grid>
         </Grid>
       </Grid>
-      <AuthFooter />
     </AuthWrapper1>
   );
 };

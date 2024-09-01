@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Grid, Box, IconButton, Button } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import Typography from '@mui/material/Typography';
 
 const images = [
   'https://web.algorooms.com/static/media/new2.b0f045c24bc87893584bbbb5ca270256.svg',
@@ -29,7 +28,8 @@ const ImageCarousel = () => {
     <Grid item xs={12} md={5} p={10} sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
       {/* Logo at the top-left */}
       <Box textAlign={'left'} mb={5}>
-        <img src="" alt="Logo" style={{ width: '35%', height: 'auto' }} loading="lazy" />
+        {/* <img src="../" alt="Logo" style={{ width: '35%', height: 'auto' }} loading="lazy" /> */}
+        <p>Algo Trading Logo</p>
       </Box>
 
       {/* Carousel */}

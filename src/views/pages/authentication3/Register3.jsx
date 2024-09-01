@@ -14,7 +14,6 @@ import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import Logo from 'ui-component/Logo';
 import AuthRegister from '../authentication/auth-forms/AuthRegister';
-import AuthFooter from 'ui-component/cards/AuthFooter';
 import ImageCarousel from 'ui-component/ImageCarousel ';
 
 // assets
@@ -59,7 +58,6 @@ const Register = () => {
           </Grid>
         </Grid>
       </Grid>
-      <AuthFooter />
     </AuthWrapper1>
   );
 };
