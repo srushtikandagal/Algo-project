@@ -14,12 +14,15 @@ import themes from 'themes';
 import NavigationScroll from 'layout/NavigationScroll';
 import { useEffect } from 'react';
 import { SET_IS_USER_AUTHENTICATED } from 'store/actions';
+import useSnackbar from 'ui-component/use-snackbar';
 
 // ==============================|| APP ||============================== //
 
 const App = () => {
   const customization = useSelector((state) => state.customization);
   const dispatch = useDispatch();
+
+  const { showSnackbar, SnackbarComponent } = useSnackbar();
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -38,6 +41,7 @@ const App = () => {
         <NavigationScroll>
           <RouterProvider router={router} />
         </NavigationScroll>
+        <SnackbarComponent />
       </ThemeProvider>
     </StyledEngineProvider>
   );

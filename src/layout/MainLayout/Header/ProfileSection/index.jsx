@@ -57,7 +57,7 @@ const ProfileSection = () => {
   const anchorRef = useRef(null);
   const handleLogout = async () => {
     dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: false });
-    console.log('Logout');
+    localStorage.removeItem('authToken');
   };
 
   const handleClose = (event) => {
@@ -160,7 +160,7 @@ const ProfileSection = () => {
                       <Stack direction="row" spacing={0.5} alignItems="center">
                         <Typography variant="h4">Good Morning,</Typography>
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                         Hello Users
+                          Hello Users
                         </Typography>
                       </Stack>
                       <Typography variant="subtitle2">Users Admin</Typography>
@@ -254,7 +254,12 @@ const ProfileSection = () => {
                           <ListItemIcon>
                             <IconSettings stroke={1.5} size="1.3rem" />
                           </ListItemIcon>
-                          <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
+                          <ListItemText
+                            onClick={() => {
+                              navigate('/profile');
+                            }}
+                            primary={<Typography variant="body2">Account Settings</Typography>}
+                          />
                         </ListItemButton>
                         <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}

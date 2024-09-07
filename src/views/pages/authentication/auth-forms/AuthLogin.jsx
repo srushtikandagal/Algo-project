@@ -39,6 +39,7 @@ import useSnackbar from 'ui-component/use-snackbar';
 
 // store
 import { setIsModalOpen } from 'store/actions';
+import { CircularProgress } from '@mui/material';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -52,16 +53,19 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
   const { showSnackbar, SnackbarComponent } = useSnackbar();
 
   // useMutation for handling login API request
-  const loginMutation = useMutation((data) => axios.post('http://jetalgosoftware.com/api/auth/login', data), {
+  const loginMutation = useMutation((data) => axios.post('http://jetalgosoftware.com/auth/login?uuid=wrvbekbnek', data), {
     onSuccess: (response) => {
       dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
-      localStorage.setItem('authToken', 'kjsdbvbdbdbvn');
-      navigate('/');
+      localStorage.setItem('authToken', response.data.auth_token);
+      // Delay navigation to allow snackbar to be visible
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+
       showSnackbar('Login successful!', 'success');
     },
     onError: (error) => {
-      showSnackbar('Login failed. Please check your credentials.', 'error');
-      console.error('Login failed:', error.response?.data || error.message);
+      showSnackbar(error.response?.data.error.msg || error.message, 'error');
     }
   });
 
@@ -138,28 +142,25 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
         </Grid>
         <Grid item xs={12} container alignItems="center" justifyContent="center">
           <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">Sign in with phoneNumber address</Typography>
+            <Typography variant="subtitle1">Sign in with Email address</Typography>
           </Box>
         </Grid>
       </Grid>
       <Formik
         initialValues={{
-          phoneNumber: '',
+          email: '',
           password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          phoneNumber: Yup.string()
-            .required('Phone number is required')
-            .matches(/^[0-9]+$/, 'Must be a valid phone number')
-            .max(15),
+          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
         onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
           // Trigger the mutation on form submit
           loginMutation.mutate(
             {
-              mobile: values.phoneNumber,
+              email_id: values.email,
               password: values.password
             },
             {
@@ -175,21 +176,21 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
-            <FormControl fullWidth error={Boolean(touched.phoneNumber && errors.phoneNumber)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-phoneNumber-login">phoneNumber Address / Username</InputLabel>
+            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-email-login">Email ID / Client ID</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-phoneNumber-login"
-                type="phoneNumber"
-                value={values.phoneNumber}
-                name="phoneNumber"
+                id="outlined-adornment-email-login"
+                type="email"
+                value={values.email}
+                name="email"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                label="phoneNumber Address / Username"
+                label="Email ID / Client ID"
                 inputProps={{}}
               />
-              {touched.phoneNumber && errors.phoneNumber && (
-                <FormHelperText error id="standard-weight-helper-text-phoneNumber-login">
-                  {errors.phoneNumber}
+              {touched.email && errors.email && (
+                <FormHelperText error id="standard-weight-helper-text-email-login">
+                  {errors.email}
                 </FormHelperText>
               )}
             </FormControl>
@@ -247,7 +248,16 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
             )}
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
+                <Button
+                  disableElevation
+                  disabled={isSubmitting}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  color="secondary"
+                  startIcon={loginMutation.isLoading ? <CircularProgress size={20} /> : null}
+                >
                   Sign in
                 </Button>
               </AnimateButton>

@@ -27,12 +27,11 @@ const Register = () => {
     <AuthWrapper1>
       <Grid container direction="row" justifyContent="space-between" alignItems="stretch" sx={{ minHeight: '100vh' }}>
         <ImageCarousel />
-
         <Grid xs={12} md={7} bgcolor={'white'}>
           <Grid direction="column" justifyContent="center" alignItems="center" sx={{ height: '100%' }}>
             <Grid container sx={{ width: '100%' }} justifyContent="center">
               <AuthCardWrapper>
-                <Grid c>
+                <Grid>
                   <Grid item xs={12}>
                     <Typography color="secondary.main" gutterBottom variant={downMD ? 'h3' : 'h2'} textAlign={'center'}>
                       Algo Trading
@@ -45,11 +44,11 @@ const Register = () => {
                     <AuthRegister />
                   </Grid>
                   <Grid item xs={12}>
-                    <Divider />
+                    <Divider sx={{ padding: '2px' }} />
                   </Grid>
                   <Grid item xs={12} textAlign="center">
                     <Typography component={Link} to="/login" variant="subtitle1" sx={{ textDecoration: 'none' }}>
-                      Already have an account? Sign Up
+                      Already have an account? Sign In
                     </Typography>
                   </Grid>
                 </Grid>
