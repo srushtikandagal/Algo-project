@@ -1,14 +1,11 @@
+// ProfileDashboard.js
 import React, { useState } from 'react';
 import { Box, Typography, Avatar, Button, Paper, Grid, Link, Tabs, Tab, useMediaQuery } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTheme } from '@mui/material/styles';
-import { Phone } from '@mui/icons-material';
-import { IconUser } from '@tabler/icons-react';
-import { Email } from '@mui/icons-material';
-import { Wallet } from '@mui/icons-material';
-import { CreditScore } from '@mui/icons-material';
-import { Subscript } from '@mui/icons-material';
-import { Notifications } from '@mui/icons-material';
+import { Phone, Email, Wallet, CreditScore, Subscript } from '@mui/icons-material';
+import UpdateProfile from './updateProfile/updateProfile';
+import Person from '@mui/icons-material/Person';
 
 // Example JSON Data
 const jsonData = {
@@ -35,29 +32,21 @@ const jsonData = {
     joinedDate: '27/08/2024'
   },
   tabs: [
-    {
-      label: 'Notifications',
-      content: 'Notification rack is Empty!'
-    },
-    {
-      label: 'Subscriptions',
-      content: 'You have no subscriptions!'
-    },
-    {
-      label: 'My Referrals',
-      content: 'You have no referrals!'
-    }
+    { label: 'Notifications', content: 'Notification rack is Empty!' },
+    { label: 'Subscriptions', content: 'You have no subscriptions!' },
+    { label: 'My Referrals', content: 'You have no referrals!' }
   ]
 };
 
 const ProfileDashboard = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
   const theme = useTheme();
   const downMD = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
-  };
+  const handleTabChange = (event, newValue) => setActiveTab(newValue);
+  const handleOpenUpdateProfile = () => setOpenUpdateProfile(true);
+  const handleCloseUpdateProfile = () => setOpenUpdateProfile(false);
 
   const { profile, wallet, credit, subscription, referral, tabs } = jsonData;
 
@@ -97,7 +86,7 @@ const ProfileDashboard = () => {
               sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
               mt={{ xs: 1, md: 0.5 }}
             >
-              <IconUser fontSize="small" />
+              <Person fontSize="small" />
               {profile.id}
             </Typography>
             <Typography
@@ -124,7 +113,7 @@ const ProfileDashboard = () => {
         </Grid>
         {/* Edit Button */}
         {!downMD && (
-          <Button sx={{ ml: 'auto' }} variant="contained" color="secondary">
+          <Button sx={{ ml: 'auto' }} variant="contained" color="secondary" onClick={handleOpenUpdateProfile}>
             <EditIcon />
           </Button>
         )}
@@ -136,7 +125,7 @@ const ProfileDashboard = () => {
           <Paper elevation={1} sx={{ p: 2, textAlign: 'center', display: 'flex', alignItems: 'center', gap: 2 }}>
             <Wallet fontSize="large" />
             <Box>
-              <Typography fontSize={25} fontFamily="sans-serif" color={'black'}>
+              <Typography fontSize={25} fontFamily="sans-serif" color="black">
                 ₹ {wallet.amount.toFixed(2)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -149,7 +138,7 @@ const ProfileDashboard = () => {
           <Paper elevation={1} sx={{ p: 2, textAlign: 'center', display: 'flex', alignItems: 'center', gap: 2 }}>
             <CreditScore fontSize="large" />
             <Box>
-              <Typography fontSize={25} fontFamily="sans-serif" color={'black'}>
+              <Typography fontSize={25} fontFamily="sans-serif" color="black">
                 ₹ {credit.amount.toFixed(2)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -162,7 +151,7 @@ const ProfileDashboard = () => {
           <Paper elevation={1} sx={{ p: 2, textAlign: 'center', display: 'flex', alignItems: 'center', gap: 2 }}>
             <Subscript fontSize="large" />
             <Box>
-              <Typography fontSize={25} fontFamily="sans-serif" color={'black'}>
+              <Typography fontSize={25} fontFamily="sans-serif" color="black">
                 {subscription.plan}
               </Typography>
               <Typography variant="body2" color="success.main">
@@ -201,26 +190,15 @@ const ProfileDashboard = () => {
       </Tabs>
 
       {/* Tab Content */}
+      {tabs.map((tab, index) => (
+        <Box key={index} hidden={activeTab !== index} sx={{ textAlign: 'center', py: 6 }}>
+          <img src="https://via.placeholder.com/100" alt="Notification Empty" style={{ marginBottom: '1rem' }} />
+          <Typography color="text.secondary">{tab.content}</Typography>
+        </Box>
+      ))}
 
-      {/* Tab Content */}
-      {activeTab === 0 && (
-        <Box sx={{ textAlign: 'center', py: 6 }}>
-          <img src="https://via.placeholder.com/100" alt="Notification Empty" style={{ marginBottom: '1rem' }} />
-          <Typography color="text.secondary">Notification rack is Empty!</Typography>
-        </Box>
-      )}
-      {activeTab === 1 && (
-        <Box sx={{ textAlign: 'center', py: 6 }}>
-          <img src="https://via.placeholder.com/100" alt="Notification Empty" style={{ marginBottom: '1rem' }} />
-          <Typography color="text.secondary">You have no subscriptions!</Typography>
-        </Box>
-      )}
-      {activeTab === 2 && (
-        <Box sx={{ textAlign: 'center', py: 6 }}>
-          <img src="https://via.placeholder.com/100" alt="Notification Empty" style={{ marginBottom: '1rem' }} />
-          <Typography color="text.secondary">You have no referrals!</Typography>
-        </Box>
-      )}
+      {/* Update Profile Modal */}
+      <UpdateProfile open={openUpdateProfile} handleClose={handleCloseUpdateProfile} profile={profile} />
     </Box>
   );
 };
