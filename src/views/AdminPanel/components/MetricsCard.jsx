@@ -12,10 +12,10 @@ import SaveTwoToneIcon from '@mui/icons-material/SaveOutlined'; // Icon for Save
 
 // Define default color schemes for the component
 const defaultColorSchemes = [
-  { light: '#FF8A80', dark: '#BF5C5C' },
-  { light: '#66BB6A', dark: '#2C6B41' },
   { light: '#42A5F5', dark: '#0D47A1' },
-  { light: '#FFD54F', dark: '#FF6F00' }
+  { light: '#42A5F5', dark: '#0D47A1' },
+  { light: '#42A5F5', dark: '#0D47A1' },
+  { light: '#42A5F5', dark: '#0D47A1' }
 ];
 
 const MetricsCard = ({ title, value, isLoading, icon, colorSchemeIndex, background }) => {

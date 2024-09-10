@@ -22,7 +22,7 @@ const Dashboard = () => {
             value="1,200"
             icon={<GetAppOutlinedIcon />}
             colorSchemeIndex={0}
-            background="linear-gradient(135deg, #FF6F61 30%, #FF3D00 90%)"
+            background="linear-gradient(135deg, #2196F3 30%, #1976D2 90%)"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
@@ -31,7 +31,7 @@ const Dashboard = () => {
             value="5,000"
             icon={<FileCopyOutlinedIcon />}
             colorSchemeIndex={1}
-            background="linear-gradient(135deg, #4CAF50 30%, #388E3C 90%)"
+            background="linear-gradient(135deg, #2196F3 30%, #1976D2 90%)"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
@@ -49,7 +49,7 @@ const Dashboard = () => {
             value="300"
             icon={<ArchiveOutlinedIcon />}
             colorSchemeIndex={3}
-            background="linear-gradient(135deg, #FFC107 30%, #FFA000 90%)"
+            background="linear-gradient(135deg, #2196F3 30%, #1976D2 90%)"
           />
         </Grid>
       </Grid>
