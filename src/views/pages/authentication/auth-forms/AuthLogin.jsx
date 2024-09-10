@@ -53,12 +53,13 @@ const AuthLogin = ({ setisForgetPasswordShow, ...others }) => {
   const { showSnackbar, SnackbarComponent } = useSnackbar();
 
   // useMutation for handling login API request
-  const loginMutation = useMutation((data) => axios.post('http://jetalgosoftware.com/auth/login?uuid=wrvbekbnek', data), {
+  const loginMutation = useMutation((data) => axios.post('https://jetalgosoftware.com/auth/login?uuid=wrvbekbnek', data), {
     onSuccess: (response) => {
       dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: true });
       localStorage.setItem('authToken', response.data.auth_token);
       // Delay navigation to allow snackbar to be visible
       setTimeout(() => {
+        dispatch(setIsModalOpen(true));
         navigate('/');
       }, 2000);
 

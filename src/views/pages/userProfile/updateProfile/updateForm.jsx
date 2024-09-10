@@ -1,17 +1,24 @@
-// UpdateForm.js
 import React, { useState } from 'react';
-import { Box, Typography, TextField, Button, Input, Avatar } from '@mui/material';
+import { Box, Typography, TextField, Button, Input, Avatar, CircularProgress } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import axios from 'axios';
+import useSnackbar from 'ui-component/use-snackbar';
 
-const UpdateForm = ({ handleClose, profile }) => {
-  // State to manage form inputs
+const LOCAL_STORAGE_KEY = 'authToken';
+
+const UpdateForm = ({ handleClose, firstName, lastName, email_id, contactNumber, middleName, _id }) => {
+  // State to manage form inputs and file input
   const [formData, setFormData] = useState({
-    firstName: profile.name.split(' ')[0] || '',
-    middleName: profile.name.split(' ')[1] || '',
-    lastName: profile.name.split(' ')[2] || '',
-    email: profile.email,
-    phone: profile.phone
+    firstName: firstName || '',
+    middleName: middleName || '',
+    lastName: lastName || '',
+    email_id: email_id,
+    contactNumber: contactNumber
   });
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [preview, setPreview] = useState(''); // State to hold the image preview URL
+  const [isLoading, setIsLoading] = useState(false);
+  const { showSnackbar, SnackbarComponent } = useSnackbar();
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -19,11 +26,51 @@ const UpdateForm = ({ handleClose, profile }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  // Handle file input changes
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file)); // Create a preview URL for the selected image
+    }
+  };
+
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    handleClose();
+    setIsLoading(true); // Show loader and disable button
+
+    // Create FormData object
+    const data = new FormData();
+    data.append('firstName', formData.firstName);
+    data.append('middleName', formData.middleName);
+    data.append('lastName', formData.lastName);
+    data.append('email_id', formData.email_id);
+    data.append('contactNumber', formData.contactNumber);
+
+    // Append file if selected
+    if (selectedFile) {
+      data.append('profileImage', selectedFile);
+    }
+
+    try {
+      // Make POST request to update profile
+      const Token = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const response = await axios.put(`https://jetalgosoftware.com/user/update?uuid=rbetnr`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          token: Token
+        }
+      });
+      console.log(response.data);
+      showSnackbar('Profile Updated Successfully');
+      handleClose(); // Close modal on success
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      showSnackbar(error.response?.data?.error.msg || 'Server 500', 'error');
+    } finally {
+      setIsLoading(false); // Hide loader and enable button
+    }
   };
 
   return (
@@ -47,11 +94,9 @@ const UpdateForm = ({ handleClose, profile }) => {
         Update Profile
       </Typography>
 
-      <Avatar
-        src="http://localhost:3000/src/assets/images/users/user-round.svg"
-        sx={{ bgcolor: profile.avatarColor, width: 100, height: 100, mx: 'auto' }}
-      >
-        {profile.avatarInitial}
+      {/* Avatar displays the preview if available, otherwise a default image */}
+      <Avatar src={preview || 'https://localhost:3000/src/assets/images/users/user-round.svg'} sx={{ width: 100, height: 100, mx: 'auto' }}>
+        {/* {profile.avatarInitial} */}
       </Avatar>
 
       <Button variant="contained" component="label" startIcon={<PhotoCamera />} sx={{ mt: 1, mb: 3 }}>
@@ -59,7 +104,7 @@ const UpdateForm = ({ handleClose, profile }) => {
         <Input
           type="file"
           accept="image/*"
-          // onChange={handleFileChange}
+          onChange={handleFileChange}
           sx={{ display: 'none' }} // Hide the input
         />
       </Button>
@@ -95,28 +140,33 @@ const UpdateForm = ({ handleClose, profile }) => {
         variant="outlined"
         type="email"
         name="email"
-        value={formData.email}
+        value={formData.email_id}
         onChange={handleInputChange}
         fullWidth
         required
+        disabled
       />
       <TextField
         label="Phone"
         variant="outlined"
         type="tel"
         name="phone"
-        value={formData.phone}
+        value={formData.contactNumber}
         onChange={handleInputChange}
         fullWidth
         required
+        disabled
       />
 
-      <Button type="submit" variant="contained" color="primary">
-        Update
+      <Button type="submit" variant="contained" color="primary" disabled={isLoading} sx={{ position: 'relative' }}>
+        {isLoading ? <CircularProgress size={24} /> : 'Update'}
       </Button>
       <Button onClick={handleClose} variant="outlined" color="secondary">
         Cancel
       </Button>
+
+      {/* Snackbar for notifications */}
+      {SnackbarComponent}
     </Box>
   );
 };
