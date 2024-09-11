@@ -11,6 +11,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { Formik } from 'formik';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import AuthCardWrapper from 'views/pages/AuthCardWrapper';
+import { CircularProgress } from '@mui/material';
 
 const CustomAuthForm = ({
   title,
@@ -21,6 +22,7 @@ const CustomAuthForm = ({
   initialValues,
   validationSchema,
   onSubmit,
+  isLoading,
   isSubmitting,
   inputLabel,
   footerText,
@@ -29,7 +31,7 @@ const CustomAuthForm = ({
   ...others
 }) => {
   const theme = useTheme();
-
+  console.log('onSubmit', onSubmit);
   return (
     <AuthCardWrapper>
       <Grid container spacing={2} justifyContent="center" alignItems="center">
@@ -80,6 +82,7 @@ const CustomAuthForm = ({
                       type="submit"
                       variant="contained"
                       color="secondary"
+                      startIcon={isLoading ? <CircularProgress size={20} /> : null}
                     >
                       {buttonText}
                     </Button>

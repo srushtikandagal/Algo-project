@@ -1,44 +1,58 @@
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 import React, { useState, Suspense } from 'react';
+import useSnackbar from 'ui-component/use-snackbar';
 
 const ForgetPasswordSection = React.lazy(() => import('./ForgetPasswordSection')); // Lazy load ForgetPassword component
-const OTPVerificationSection = React.lazy(() => import('./OTPSection')); // Lazy load OTPVerification component
-const ResetPasswordSection = React.lazy(() => import('./ResetPasswordSection')); // Lazy load ResetPassword component
 
 const ForgetPasswordPage = ({ setisForgetPasswordShow }) => {
-  const [currentStep, setCurrentStep] = useState('forgetPassword'); // Manages the current step in the flow
-  const [email, setEmail] = useState(''); // Stores email for OTP verification
-  const [otp, setOtp] = useState(''); // Stores OTP for verification
+  const [email, setEmail] = useState('');
+  const { showSnackbar, SnackbarComponent } = useSnackbar();
+
+  const forgotPasswordMutation = useMutation(
+    (data) =>
+      axios.post('https://jetalgosoftware.com/auth/forgot/password?uuid=wrvbekbnek', data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }),
+    {
+      onSuccess: (response) => {
+        console.log('response', response);
+        showSnackbar(response?.data?.msg || 'Email sent Successfully', 'success');
+      },
+      onError: (error) => {
+        showSnackbar(error.response?.data?.error.msg || 'failed. Please try again.', 'error');
+      }
+    }
+  );
 
   const handleEmailSubmit = (emailValue) => {
+    console.log('inside forgot password function', emailValue);
     setEmail(emailValue);
-    setCurrentStep('otp'); // Move to OTP step
+    try {
+      forgotPasswordMutation.mutate({
+        email_id: emailValue
+      });
+    } catch (e) {
+      console.error('Error on forgot password', e);
+      showSnackbar('Error on forgot password', 'error');
+    }
   };
 
-  const handleOTPSubmit = (otpValue) => {
-    setOtp(otpValue);
-    setCurrentStep('resetPassword'); // Move to reset password step
-  };
-
-  const handleResetPassword = () => {
-    setCurrentStep('forgetPassword'); // Reset flow after password reset
-  };
-
-  // Action to go back to the login page
   const handleLoginClick = () => {
-    setisForgetPasswordShow(false); // Go back to the login page
+    setisForgetPasswordShow(false);
   };
 
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
-        {currentStep === 'forgetPassword' && (
-          <ForgetPasswordSection
-            onSubmit={handleEmailSubmit}
-            footerLinkAction={handleLoginClick} // Pass the handleLoginClick function
-          />
-        )}
-        {currentStep === 'otp' && <OTPVerificationSection email={email} onSubmit={handleOTPSubmit} />}
-        {currentStep === 'resetPassword' && <ResetPasswordSection onSubmit={handleResetPassword} footerLinkAction={handleLoginClick} />}
+        <ForgetPasswordSection
+          onSubmit={handleEmailSubmit}
+          footerLinkAction={handleLoginClick}
+          isLoading={forgotPasswordMutation.isLoading}
+        />
+        <SnackbarComponent />
       </Suspense>
     </>
   );
