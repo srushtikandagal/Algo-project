@@ -1,22 +1,23 @@
-// UpdateProfile.js
-import React from 'react';
-import { Dialog, DialogTitle, DialogContent, Modal } from '@mui/material';
+import React, { memo } from 'react';
+import { Modal } from '@mui/material';
 import UpdateForm from './updateForm';
 
-const UpdateProfile = ({ open, handleClose, profile }) => {
+const UpdateProfile = memo(({ open, handleClose, profile, fetchUserData }) => {
+  const { firstName, lastName, email_id, contactNumber, middleName } = profile;
+
   return (
-    <Modal open={open}>
+    <Modal open={open} onClose={handleClose}>
       <UpdateForm
         handleClose={handleClose}
-        firstName={profile.firstName}
-        lastName={profile.lastName}
-        email_id={profile.email_id}
-        contactNumber={profile.contactNumber}
-        middleName={profile.middleName}
-        _id={profile.id}
+        firstName={firstName}
+        lastName={lastName}
+        email_id={email_id}
+        contactNumber={contactNumber}
+        middleName={middleName}
+        fetchUserData={fetchUserData}
       />
     </Modal>
   );
-};
+});
 
 export default UpdateProfile;

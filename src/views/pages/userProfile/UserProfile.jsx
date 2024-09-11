@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, Avatar, Button, Paper, Grid, Link, Tabs, Tab, useMediaQuery, CircularProgress } from '@mui/material';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { Box, Typography, Avatar, Button, Paper, Grid, Link, Tabs, Tab, useMediaQuery } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTheme } from '@mui/material/styles';
 import { Phone, Email, Wallet, CreditScore, Subscript, Person } from '@mui/icons-material';
 import UpdateProfile from './updateProfile/updateProfile';
 import Loader from 'ui-component/Loader';
-import Loadable from 'ui-component/Loadable';
 
 // API endpoint and local storage key
 const API_URL = 'https://jetalgosoftware.com/user/details?uuid=fqewrbet';
 const LOCAL_STORAGE_KEY = 'authToken';
 
+// Tabs data
 const tabs = [
   { label: 'Notifications', content: 'Notification rack is Empty!' },
   { label: 'Subscriptions', content: 'You have no subscriptions!' },
   { label: 'My Referrals', content: 'You have no referrals!' }
 ];
+
 const ProfileDashboard = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,47 +26,45 @@ const ProfileDashboard = () => {
   const theme = useTheme();
   const downMD = useMediaQuery(theme.breakpoints.down('md'));
 
-  // Fetch user data from API
-  useEffect(() => {
-    const fetchUserData = async () => {
-      setLoading(true);
-      setError(null);
+  const fetchUserData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
 
-      try {
-        const Token = localStorage.getItem(LOCAL_STORAGE_KEY);
-        const response = await fetch(API_URL, {
-          headers: {
-            token: Token
-          }
-        });
+    try {
+      const token = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const response = await fetch(API_URL, {
+        headers: { token }
+      });
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-
-        const data = await response.json();
-        setUserData(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
       }
-    };
 
+      const data = await response.json();
+      setUserData(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [openUpdateProfile]);
+
+  useEffect(() => {
     fetchUserData();
   }, []);
 
-  const handleTabChange = (event, newValue) => setActiveTab(newValue);
-  const handleOpenUpdateProfile = () => setOpenUpdateProfile(true);
-  const handleCloseUpdateProfile = () => setOpenUpdateProfile(false);
+  const handleTabChange = useCallback((event, newValue) => setActiveTab(newValue), []);
+  const handleOpenUpdateProfile = useCallback(() => setOpenUpdateProfile(true), []);
+  const handleCloseUpdateProfile = useCallback(() => setOpenUpdateProfile(false), []);
+
+  const profileInfo = useMemo(() => {
+    if (!userData) return {};
+    const { firstName, lastName, email_id, contactNumber, createdAt, middleName, _id } = userData;
+    return { firstName, lastName, email_id, contactNumber, createdAt, middleName, _id };
+  }, [userData]);
 
   if (loading) {
-    return (
-      <>
-        <Loader />
-        {/* <Loadable / */}
-      </>
-    );
+    return <Loader />;
   }
 
   if (error) {
@@ -75,8 +74,6 @@ const ProfileDashboard = () => {
       </Box>
     );
   }
-
-  const { firstName, lastName, email_id, contactNumber, createdAt, middleName, _id } = userData;
 
   return (
     <Box
@@ -94,43 +91,43 @@ const ProfileDashboard = () => {
       <Grid container spacing={2} direction={downMD ? 'column' : 'row'} alignItems={downMD ? 'center' : 'flex-start'} mb={4}>
         {/* Profile Picture */}
         <Grid item>
-          <Avatar src="http://localhost:3000/src/assets/images/users/user-round.svg" sx={{ width: 150, height: 150 }}></Avatar>
+          <Avatar src="http://localhost:3000/src/assets/images/users/user-round.svg" sx={{ width: 150, height: 150 }} />
         </Grid>
         {/* Profile Info */}
         <Grid item>
           <Typography fontSize={35} textAlign={downMD ? 'center' : 'left'}>
-            {firstName} {lastName}
+            {profileInfo.firstName} {profileInfo.lastName}
           </Typography>
           <Box>
             <Typography
-              variant="body3"
+              variant="body2"
               color="text.secondary"
               fontFamily="sans-serif"
               sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
               mt={{ xs: 1, md: 0.5 }}
             >
               <Person fontSize="small" />
-              {_id}
+              {profileInfo._id}
             </Typography>
             <Typography
-              variant="body3"
+              variant="body2"
               color="text.secondary"
               fontFamily="sans-serif"
               sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
               mt={{ xs: 1, md: 0.5 }}
             >
               <Phone fontSize="small" />
-              {contactNumber}
+              {profileInfo.contactNumber}
             </Typography>
             <Typography
-              variant="body3"
+              variant="body2"
               color="text.secondary"
               fontFamily="sans-serif"
               sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
               mt={{ xs: 1, md: 0.5 }}
             >
               <Email fontSize="small" />
-              {email_id}
+              {profileInfo.email_id}
             </Typography>
           </Box>
         </Grid>
@@ -194,7 +191,7 @@ const ProfileDashboard = () => {
           </Link>
         </Typography>
         <Typography variant="body2" color="text.secondary" fontFamily="sans-serif">
-          Joined on {createdAt}
+          Joined on {profileInfo.createdAt}
         </Typography>
       </Box>
 
@@ -221,11 +218,7 @@ const ProfileDashboard = () => {
       ))}
 
       {/* Update Profile Modal */}
-      <UpdateProfile
-        open={openUpdateProfile}
-        handleClose={handleCloseUpdateProfile}
-        profile={{ firstName, lastName, email_id, contactNumber, middleName }}
-      />
+      <UpdateProfile open={openUpdateProfile} handleClose={handleCloseUpdateProfile} profile={profileInfo} fetchUserData={fetchUserData} />
     </Box>
   );
 };

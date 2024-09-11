@@ -58,6 +58,7 @@ const ProfileSection = () => {
   const handleLogout = async () => {
     dispatch({ type: SET_IS_USER_AUTHENTICATED, isUserAuthenticated: false });
     localStorage.removeItem('authToken');
+    navigate('/login');
   };
 
   const handleClose = (event) => {
