@@ -11,6 +11,7 @@ import { gridSpacing } from 'store/constant';
 import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
 import { setIsModalOpen } from '../../store/actions';
 import RiskDisclosuresModal from './components/RiskDisclosuresModal';
+import BtnChart from './chart-data/BTS-USDT-chart';
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
@@ -58,7 +59,7 @@ const Dashboard = () => {
         <Grid item xs={12}>
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12} md={8}>
-              <TotalGrowthBarChart isLoading={isLoading} />
+              <BtnChart />
             </Grid>
             <Grid item xs={12} md={4}>
               <PopularCard isLoading={isLoading} />
