@@ -1,65 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Box, Typography, Avatar, Button, Paper, Grid, Link, Tabs, Tab, useMediaQuery } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useTheme } from '@mui/material/styles';
-import { Phone } from '@mui/icons-material';
-import { IconUser } from '@tabler/icons-react';
-import { Email } from '@mui/icons-material';
-import { Wallet } from '@mui/icons-material';
-import { CreditScore } from '@mui/icons-material';
-import { Subscript } from '@mui/icons-material';
-import { Notifications } from '@mui/icons-material';
+import { Phone, Email, Wallet, CreditScore, Subscript, Person } from '@mui/icons-material';
+import UpdateProfile from './updateProfile/updateProfile';
+import Loader from 'ui-component/Loader';
 
-// Example JSON Data
-const jsonData = {
-  profile: {
-    name: 'John Doe',
-    id: 'AR220573',
-    phone: '+918654464',
-    email: 'JohnDoe@gmail.com',
-    avatarColor: 'green',
-    avatarInitial: 'V'
-  },
-  wallet: {
-    amount: 15000.0
-  },
-  credit: {
-    amount: 7000.0
-  },
-  subscription: {
-    plan: 'Free Plan',
-    status: 'Active'
-  },
-  referral: {
-    link: 'https://web.algorooms.com/login?referral_code=AR220573',
-    joinedDate: '27/08/2024'
-  },
-  tabs: [
-    {
-      label: 'Notifications',
-      content: 'Notification rack is Empty!'
-    },
-    {
-      label: 'Subscriptions',
-      content: 'You have no subscriptions!'
-    },
-    {
-      label: 'My Referrals',
-      content: 'You have no referrals!'
-    }
-  ]
-};
+// API endpoint and local storage key
+const API_URL = 'https://jetalgosoftware.com/user/details?uuid=fqewrbet';
+const LOCAL_STORAGE_KEY = 'authToken';
+
+// Tabs data
+const tabs = [
+  { label: 'Notifications', content: 'Notification rack is Empty!' },
+  { label: 'Subscriptions', content: 'You have no subscriptions!' },
+  { label: 'My Referrals', content: 'You have no referrals!' }
+];
 
 const ProfileDashboard = () => {
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
+  const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
   const theme = useTheme();
   const downMD = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
-  };
+  const fetchUserData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
 
-  const { profile, wallet, credit, subscription, referral, tabs } = jsonData;
+    try {
+      const token = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const response = await fetch(API_URL, {
+        headers: { token }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+
+      const data = await response.json();
+      setUserData(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [openUpdateProfile]);
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const handleTabChange = useCallback((event, newValue) => setActiveTab(newValue), []);
+  const handleOpenUpdateProfile = useCallback(() => setOpenUpdateProfile(true), []);
+  const handleCloseUpdateProfile = useCallback(() => setOpenUpdateProfile(false), []);
+
+  const profileInfo = useMemo(() => {
+    if (!userData) return {};
+    const { firstName, lastName, email_id, contactNumber, createdAt, middleName, _id } = userData;
+    return { firstName, lastName, email_id, contactNumber, createdAt, middleName, _id };
+  }, [userData]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="50vh">
+        <Typography color="error">Error: {error}</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -77,54 +91,49 @@ const ProfileDashboard = () => {
       <Grid container spacing={2} direction={downMD ? 'column' : 'row'} alignItems={downMD ? 'center' : 'flex-start'} mb={4}>
         {/* Profile Picture */}
         <Grid item>
-          <Avatar
-            src="http://localhost:3000/src/assets/images/users/user-round.svg"
-            sx={{ bgcolor: profile.avatarColor, width: 150, height: 150 }}
-          >
-            {profile.avatarInitial}
-          </Avatar>
+          <Avatar src="http://localhost:3000/src/assets/images/users/user-round.svg" sx={{ width: 150, height: 150 }} />
         </Grid>
         {/* Profile Info */}
         <Grid item>
           <Typography fontSize={35} textAlign={downMD ? 'center' : 'left'}>
-            {profile.name}
+            {profileInfo.firstName} {profileInfo.lastName}
           </Typography>
           <Box>
             <Typography
-              variant="body3"
+              variant="body2"
               color="text.secondary"
               fontFamily="sans-serif"
               sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
               mt={{ xs: 1, md: 0.5 }}
             >
-              <IconUser fontSize="small" />
-              {profile.id}
+              <Person fontSize="small" />
+              {profileInfo._id}
             </Typography>
             <Typography
-              variant="body3"
+              variant="body2"
               color="text.secondary"
               fontFamily="sans-serif"
               sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
               mt={{ xs: 1, md: 0.5 }}
             >
               <Phone fontSize="small" />
-              {profile.phone}
+              {profileInfo.contactNumber}
             </Typography>
             <Typography
-              variant="body3"
+              variant="body2"
               color="text.secondary"
               fontFamily="sans-serif"
               sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
               mt={{ xs: 1, md: 0.5 }}
             >
               <Email fontSize="small" />
-              {profile.email}
+              {profileInfo.email_id}
             </Typography>
           </Box>
         </Grid>
         {/* Edit Button */}
         {!downMD && (
-          <Button sx={{ ml: 'auto' }} variant="contained" color="secondary">
+          <Button sx={{ ml: 'auto' }} variant="contained" color="secondary" onClick={handleOpenUpdateProfile}>
             <EditIcon />
           </Button>
         )}
@@ -136,8 +145,8 @@ const ProfileDashboard = () => {
           <Paper elevation={1} sx={{ p: 2, textAlign: 'center', display: 'flex', alignItems: 'center', gap: 2 }}>
             <Wallet fontSize="large" />
             <Box>
-              <Typography fontSize={25} fontFamily="sans-serif" color={'black'}>
-                ₹ {wallet.amount.toFixed(2)}
+              <Typography fontSize={25} fontFamily="sans-serif" color="black">
+                ₹ 15000
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Wallet Amount
@@ -149,8 +158,8 @@ const ProfileDashboard = () => {
           <Paper elevation={1} sx={{ p: 2, textAlign: 'center', display: 'flex', alignItems: 'center', gap: 2 }}>
             <CreditScore fontSize="large" />
             <Box>
-              <Typography fontSize={25} fontFamily="sans-serif" color={'black'}>
-                ₹ {credit.amount.toFixed(2)}
+              <Typography fontSize={25} fontFamily="sans-serif" color="black">
+                ₹ 5524
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Credit Amount
@@ -162,11 +171,11 @@ const ProfileDashboard = () => {
           <Paper elevation={1} sx={{ p: 2, textAlign: 'center', display: 'flex', alignItems: 'center', gap: 2 }}>
             <Subscript fontSize="large" />
             <Box>
-              <Typography fontSize={25} fontFamily="sans-serif" color={'black'}>
-                {subscription.plan}
+              <Typography fontSize={25} fontFamily="sans-serif" color="black">
+                Free
               </Typography>
               <Typography variant="body2" color="success.main">
-                {subscription.status}
+                Active
               </Typography>
             </Box>
           </Paper>
@@ -177,12 +186,12 @@ const ProfileDashboard = () => {
       <Box mb={4}>
         <Typography variant="body1" color="text.primary" fontFamily="sans-serif">
           Referral Link:{' '}
-          <Link href={referral.link} color="primary">
-            {referral.link}
+          <Link href="#" color="primary">
+            http://jwhjdbwndbdqkwujdhd/qwduid
           </Link>
         </Typography>
         <Typography variant="body2" color="text.secondary" fontFamily="sans-serif">
-          Joined on {referral.joinedDate}
+          Joined on {profileInfo.createdAt}
         </Typography>
       </Box>
 
@@ -201,26 +210,15 @@ const ProfileDashboard = () => {
       </Tabs>
 
       {/* Tab Content */}
+      {tabs.map((tab, index) => (
+        <Box key={index} hidden={activeTab !== index} sx={{ textAlign: 'center', py: 6 }}>
+          <img src="https://via.placeholder.com/100" alt="Notification Empty" style={{ marginBottom: '1rem' }} />
+          <Typography color="text.secondary">{tab.content}</Typography>
+        </Box>
+      ))}
 
-      {/* Tab Content */}
-      {activeTab === 0 && (
-        <Box sx={{ textAlign: 'center', py: 6 }}>
-          <img src="https://via.placeholder.com/100" alt="Notification Empty" style={{ marginBottom: '1rem' }} />
-          <Typography color="text.secondary">Notification rack is Empty!</Typography>
-        </Box>
-      )}
-      {activeTab === 1 && (
-        <Box sx={{ textAlign: 'center', py: 6 }}>
-          <img src="https://via.placeholder.com/100" alt="Notification Empty" style={{ marginBottom: '1rem' }} />
-          <Typography color="text.secondary">You have no subscriptions!</Typography>
-        </Box>
-      )}
-      {activeTab === 2 && (
-        <Box sx={{ textAlign: 'center', py: 6 }}>
-          <img src="https://via.placeholder.com/100" alt="Notification Empty" style={{ marginBottom: '1rem' }} />
-          <Typography color="text.secondary">You have no referrals!</Typography>
-        </Box>
-      )}
+      {/* Update Profile Modal */}
+      <UpdateProfile open={openUpdateProfile} handleClose={handleCloseUpdateProfile} profile={profileInfo} fetchUserData={fetchUserData} />
     </Box>
   );
 };
