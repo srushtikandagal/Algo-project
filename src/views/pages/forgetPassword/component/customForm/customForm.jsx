@@ -31,7 +31,6 @@ const CustomAuthForm = ({
   ...others
 }) => {
   const theme = useTheme();
-  console.log('onSubmit', onSubmit);
   return (
     <AuthCardWrapper>
       <Grid container spacing={2} justifyContent="center" alignItems="center">
