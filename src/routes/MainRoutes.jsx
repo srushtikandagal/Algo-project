@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import PrivateRoute from './privateRoute';
+import UpstoxIntegration from 'views/pages/brokers/upstox-integration';
 
-// dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
 
 // broker routing
@@ -47,6 +47,10 @@ const MainRoutes = {
             {
               path: 'add-broker',
               element: <PrivateRoute element={<AddBroker />} />
+            },
+            {
+              path: 'upstox-integration/:upstoxCode',
+              element: <PrivateRoute element={<UpstoxIntegration />} />
             }
           ]
         }
