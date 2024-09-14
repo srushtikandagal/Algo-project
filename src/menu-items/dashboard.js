@@ -27,6 +27,14 @@ const dashboard = {
       url: '/dashboard/broker',
       icon: Business,
       breadcrumbs: false
+    },
+    {
+      id: 'landingpage',
+      title: 'landingpage',
+      type: 'item',
+      url: '/landingpage',
+      icon: Business,
+      breadcrumbs: false
     }
   ]
 };
