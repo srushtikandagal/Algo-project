@@ -53,7 +53,7 @@ const AuthRegister = ({ ...others }) => {
 
   const registerMutation = useMutation(
     (userData) =>
-      axios.post('http://jetalgosoftware.com/auth/register?uuid=wrvbekbnek', userData, {
+      axios.post('https://jetalgosoftware.com/auth/register?uuid=wrvbekbnek', userData, {
         headers: {
           'Content-Type': 'application/json'
         }

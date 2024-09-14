@@ -26,7 +26,7 @@ const OTPVerification = ({ email }) => {
 
   const otpMutation = useMutation(
     (userData) =>
-      axios.post('http://jetalgosoftware.com/auth/validate/otp?uuid=wrvbekbnek', userData, {
+      axios.post('https://jetalgosoftware.com/auth/validate/otp?uuid=wrvbekbnek', userData, {
         headers: {
           'Content-Type': 'application/json',
           token: localStorage.getItem('token')

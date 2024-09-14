@@ -24,7 +24,7 @@ const ForgetPassword = ({ setisForgetPasswordShow, ...others }) => {
   const theme = useTheme();
   const downMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
-  const forgotPasswordMutation = useMutation((data) => axios.post('http://jetalgosoftware.com/api/auth/forgot-password', data), {
+  const forgotPasswordMutation = useMutation((data) => axios.post('https://jetalgosoftware.com/api/auth/forgot-password', data), {
     onSuccess: (response) => {
       showSnackbar('Otp Send!', 'success');
     },
