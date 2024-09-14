@@ -23,7 +23,7 @@ const PrivateRoute = ({ element: Component, ...rest }) => {
     return <Loader />; // Optional: Render loading state
   }
 
-  return isUserAuthenticated ? Component : <Navigate to="/login" replace />;
+  return isUserAuthenticated ? Component : <Navigate to="/landingpage" replace />;
 };
 
 export default PrivateRoute;
