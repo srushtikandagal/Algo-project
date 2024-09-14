@@ -21,12 +21,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const TopUsersTable = () => {
   const topUsers = [
-    { name: 'Alice', trades: 100, revenue: '$10,000' },
-    { name: 'Bob', trades: 90, revenue: '$9,500' },
-    { name: 'Charlie', trades: 85, revenue: '$8,700' },
-    { name: 'Diana', trades: 80, revenue: '$8,200' },
-    { name: 'Eve', trades: 75, revenue: '$7,500' },
-    { name: 'Frank', trades: 70, revenue: '$7,000' }
+    { name: 'Alice', trades: 100, revenue: '₹10,000' },
+    { name: 'Bob', trades: 90, revenue: '₹9,500' },
+    { name: 'Charlie', trades: 85, revenue: '₹8,700' },
+    { name: 'Diana', trades: 80, revenue: '₹8,200' },
+    { name: 'Eve', trades: 75, revenue: '₹7,500' },
+    { name: 'Frank', trades: 70, revenue: '₹7,000' }
   ];
 
   return (

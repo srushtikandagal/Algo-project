@@ -83,7 +83,7 @@ const TopUsersLineChart = () => {
           style: {
             colors: theme.palette.text.primary
           },
-          formatter: (value) => `$${value / 1000}k`
+          formatter: (value) => `₹${value / 1000}k`
         }
       }
     ],
@@ -96,7 +96,7 @@ const TopUsersLineChart = () => {
           formatter: (value) => `${value} trades`
         },
         {
-          formatter: (value) => `$${value / 1000}k`
+          formatter: (value) => `₹${value / 1000}k`
         }
       ]
     },

@@ -37,7 +37,7 @@ const Dashboard = () => {
         <Grid item xs={12} sm={6} md={3}>
           <MetricsCard
             title="Total Revenue"
-            value="$150,000"
+            value="₹150,0000"
             icon={<PictureAsPdfOutlinedIcon />}
             colorSchemeIndex={2}
             background="linear-gradient(135deg, #2196F3 30%, #1976D2 90%)"
