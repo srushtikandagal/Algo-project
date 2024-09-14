@@ -16,6 +16,9 @@ const AddBroker = Loadable(lazy(() => import('views/dashboard/broker/AddBroker')
 // User Profile
 const UserProfile = Loadable(lazy(() => import('../views/pages/userProfile/UserProfile')));
 
+// Admin panel
+const Adminpanel = Loadable(lazy(() => import('../views/AdminPanel')));
+
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -36,6 +39,10 @@ const MainRoutes = {
         {
           path: '',
           element: <PrivateRoute element={<DashboardDefault />} />
+        },
+        {
+          path: 'admin',
+          element: <PrivateRoute element={<Adminpanel />} />
         },
         {
           path: 'broker',
