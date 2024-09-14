@@ -8,7 +8,8 @@ export const initialState = {
   borderRadius: config.borderRadius,
   opened: true,
   isUserAuthenticated: false,
-  isModalOpen: false // Add this line for modal state
+  isModalOpen: false, // Add this line for modal state
+  availableBrokers: []
 };
 
 const customizationReducer = (state = initialState, action) => {
@@ -42,6 +43,11 @@ const customizationReducer = (state = initialState, action) => {
       return {
         ...state,
         isModalOpen: action.isOpen
+      };
+    case actionTypes.SET_AVIALABLE_BROKERS: // Handle available brokers
+      return {
+        ...state,
+        availableBrokers: [action.payload]
       };
     default:
       return state;

@@ -1,11 +1,11 @@
 import { lazy } from 'react';
-import { useSelector } from 'react-redux';
 
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import PrivateRoute from './privateRoute';
 import UpstoxIntegration from 'views/pages/brokers/upstox-integration';
+import BrokerDashboard from 'views/pages/brokers/broker-dashboard';
 
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
 
@@ -49,8 +49,12 @@ const MainRoutes = {
               element: <PrivateRoute element={<AddBroker />} />
             },
             {
-              path: 'upstox-integration/:upstoxCode',
+              path: 'upstox-integration',
               element: <PrivateRoute element={<UpstoxIntegration />} />
+            },
+            {
+              path: 'dashboard',
+              element: <PrivateRoute element={<BrokerDashboard />} />
             }
           ]
         }

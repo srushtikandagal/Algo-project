@@ -10,8 +10,11 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { CircularProgress } from '@mui/material';
 import Carousel from 'ui-component/carousel';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { SET_AVIALABLE_BROKERS } from 'store/actions';
+import { useDispatch } from 'react-redux';
 
 const UpstoxIntegration = () => {
   const validationSchema = Yup.object().shape({
@@ -19,18 +22,25 @@ const UpstoxIntegration = () => {
     upstoxClientSecret: Yup.string().required('Client Secret is required')
   });
 
-  const { upstoxCode } = useParams();
-  console.log('upstoxCode', upstoxCode);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const code = searchParams.get('code');
 
   const upstoxAuthMutaition = useMutation(
     (data) =>
       axios.post('https://jetalgosoftware.com/broker/upstox/authorization/token/upstox?uuid=ekjwvnbejl', {
-        upstoxCode: upstoxCode,
+        upstoxCode: code,
         ...data
       }),
     {
       onSuccess: (response) => {
         console.log('response: ' + JSON.stringify(response));
+
+        dispatch({ type: SET_AVIALABLE_BROKERS, payload: response.data.response });
+        localStorage.setItem('upstox_access_token', response.data.access_token);
+        navigate('/dashboard/broker');
       },
       onError: (error) => {
         console.log('Error: ' + error);
