@@ -30,7 +30,7 @@ const brokers = [
     id: 8,
     name: 'Upstox',
     icon: '/src/assets/images/brokers/upstox.png',
-    requiredFields: ['Enter Broker ID', 'App Name (Any)', 'API Key', 'API Secret Key']
+    requiredFields: ['ClientID']
   },
   { id: 9, name: 'IIFL', icon: '/src/assets/images/brokers/iifl.png', requiredFields: ['Enter Broker ID'] },
   { id: 10, name: 'Master trust', icon: '/src/assets/images/brokers/MasterTrust.png', requiredFields: ['Enter Broker ID'] }

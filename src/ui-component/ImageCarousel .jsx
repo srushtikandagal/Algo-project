@@ -3,12 +3,12 @@ import { Grid, Box, IconButton, Button } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
-const images = [
+const defaultImages = [
   'https://web.algorooms.com/static/media/new2.b0f045c24bc87893584bbbb5ca270256.svg',
   'https://web.algorooms.com/static/media/new1.08960d7d039717b7797875d9a634a0ea.svg'
 ];
 
-const ImageCarousel = () => {
+const ImageCarousel = ({ images = defaultImages }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextImage = () => {

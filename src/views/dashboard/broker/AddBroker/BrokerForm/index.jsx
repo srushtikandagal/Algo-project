@@ -1,17 +1,34 @@
 import React, { useState } from 'react';
 import { Grid, Box, Typography, TextField, Button, Avatar } from '@mui/material';
 import { YouTube } from '@mui/icons-material';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import useSnackbar from 'ui-component/use-snackbar';
 
 const BrokerForm = ({ selectedBroker }) => {
   const [clientId, setClientId] = useState('');
   const [formFields, setFormFields] = useState({});
+  const { showSnackbar, SnackbarComponent } = useSnackbar();
 
+  const navigate = useNavigate();
   const handleInputChange = (field, value) => {
     setFormFields((prev) => ({ ...prev, [field]: value }));
   };
 
+  const upstoxLoginMutation = useMutation(
+    () => axios.get(`https://jetalgosoftware.com/broker/upstox/authenticate/upstox?uuid=ekjwvnbejl&upstoxClientId=${formFields?.ClientID}`),
+    {
+      onSuccess: (response) => {
+        window.location.href = response.data.upstox_authentication_url;
+      },
+      onError: (error) => {
+        showSnackbar(error.response?.data.error.msg || error.message, 'error');
+      }
+    }
+  );
   const handleSubmit = () => {
-    // Handle form submission
+    upstoxLoginMutation.mutate();
     console.log('Form Data:', formFields);
   };
 
@@ -75,6 +92,7 @@ const BrokerForm = ({ selectedBroker }) => {
           </Button>
         </Box>
       </Grid>
+      <SnackbarComponent />
     </Grid>
   );
 };
