@@ -6,7 +6,7 @@ const FeatureSection2 = () => {
   return (
     <Box
       sx={{
-        paddingY: { xs: '20px', lg: '120px' },
+        py: { xs: 6, lg: 15 }, // Adjusted padding for consistency
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
@@ -18,7 +18,7 @@ const FeatureSection2 = () => {
           flexDirection: { xs: 'column', lg: 'row' },
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 10,
+          gap: { xs: 4, lg: 10 }, // Responsive gap
           maxWidth: '1200px', // Adjust max width if needed
           width: '100%',
           textAlign: { xs: 'center', lg: 'left' }
@@ -29,7 +29,8 @@ const FeatureSection2 = () => {
           sx={{
             flex: 1,
             order: { xs: 2, lg: 1 },
-            textAlign: { xs: 'center', lg: 'left' }
+            textAlign: { xs: 'center', lg: 'left' },
+            mb: { xs: 4, lg: 0 } // Margin bottom for small screens
           }}
         >
           <img src={Image2} alt="Detailed Statistics" style={{ width: '100%', height: 'auto' }} />
@@ -48,8 +49,9 @@ const FeatureSection2 = () => {
             component="h4"
             gutterBottom
             sx={{
-              fontSize: { xs: '2rem', lg: '2.5rem' }, // Increased text size
-              fontWeight: 'bold'
+              fontSize: { xs: '2rem', lg: '2.5rem' },
+              fontWeight: 'bold',
+              mb: 2 // Margin bottom for spacing
             }}
           >
             Detailed Statistics
@@ -59,20 +61,22 @@ const FeatureSection2 = () => {
             color="text.secondary"
             gutterBottom
             sx={{
-              fontSize: { xs: '1rem', lg: '1.125rem' } // Increased body text size
+              fontSize: { xs: '1rem', lg: '1.125rem' },
+              mb: 2 // Margin bottom for spacing
             }}
           >
-            View all mining related information in real-time, at any point at any location and decide which polls you want to mine in.
+            View all mining-related information in real-time, at any point, and decide which pools you want to mine.
           </Typography>
           <Button
             variant="contained"
             color="primary"
             sx={{
-              paddingX: 8,
-              marginTop: { xs: 4, lg: 2 },
+              px: 4,
+              py: 1,
+              mt: { xs: 4, lg: 2 },
               display: 'block',
-              margin: { xs: '0 auto', lg: 0 }, // Centers button on small screens
-              marginBottom: { xs: 6, lg: 0 }
+              mx: { xs: 'auto', lg: 0 }, // Center button on small screens
+              mb: { xs: 6, lg: 0 } // Margin bottom for small screens
             }}
           >
             Learn More

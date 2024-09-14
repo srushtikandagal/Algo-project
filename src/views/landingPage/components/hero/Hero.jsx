@@ -1,10 +1,12 @@
 import React from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { IoIosArrowDroprightCircle } from 'react-icons/io';
-import Image from '../../assets/img/hero-img.jpg';
-import Stats from '../stats/Stats';
+import Image from '../../assets/img/hero-img.jpg'; // Ensure this path is correct
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <Container maxWidth="lg" sx={{ py: 4, pt: { xs: 8, lg: 4 } }}>
       <Box display="flex" flexDirection={{ xs: 'column', lg: 'row' }} alignItems="center" sx={{ gap: { xs: 4, lg: 0 } }}>
@@ -13,7 +15,7 @@ const Hero = () => {
           {/* Badge text */}
           <Box
             sx={{
-              backgroundColor: 'background.paper', // Set the background to primary color
+              backgroundColor: 'background.paper',
               p: 1,
               mb: 3,
               borderRadius: '50px',
@@ -51,7 +53,7 @@ const Hero = () => {
             data-aos="fade-down"
             data-aos-delay="500"
           >
-            Fastest & secure platform to invest in crypto.
+            Fast & Secure Asset Trading Platform
           </Typography>
 
           {/* Subtitle */}
@@ -64,7 +66,7 @@ const Hero = () => {
             data-aos="fade-down"
             data-aos-delay="600"
           >
-            Buy and Sell cryptocurrency, trusted by 10M wallets with over $30 billion in transactions.
+            Buy and Sell Assets with Confidence—Trusted by 7.7M+ Users and Over ₹100 cr in Transactions
           </Typography>
 
           {/* Button */}
@@ -84,6 +86,7 @@ const Hero = () => {
             }}
             data-aos="fade-down"
             data-aos-delay="700"
+            onClick={() => navigate('/register')}
           >
             Try for Free
             <IoIosArrowDroprightCircle size={24} />
@@ -91,8 +94,14 @@ const Hero = () => {
         </Box>
 
         {/* Hero image section */}
-        <Box flex={1} display="flex" justifyContent="center">
-          <img src={Image} alt="banner" style={{ maxWidth: '100%', height: 'auto' }} data-aos="fade-up" data-aos-delay="600" />
+        <Box flex={1} display="flex" justifyContent="center" sx={{ maxWidth: '100%' }}>
+          <img
+            src={Image}
+            alt="Trading platform banner"
+            style={{ maxWidth: '100%', height: 'auto' }}
+            data-aos="fade-up"
+            data-aos-delay="600"
+          />
         </Box>
       </Box>
     </Container>

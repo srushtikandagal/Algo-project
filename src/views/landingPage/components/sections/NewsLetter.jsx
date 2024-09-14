@@ -17,9 +17,12 @@ const NewsLetter = () => {
       component="section"
       sx={{
         py: { xs: 5, lg: 11 },
+        pb: { lg: 20 },
         backgroundImage: `url(${NewsImage})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center'
+        backgroundPosition: 'center',
+        position: 'relative',
+        overflow: 'hidden' // Ensure the overlay does not exceed the container
       }}
     >
       <Container maxWidth="lg">
@@ -34,9 +37,8 @@ const NewsLetter = () => {
             borderRadius: 2,
             height: isLargeScreen ? 216 : 'auto',
             color: 'common.white',
-            dataAos: 'fade-up',
-            dataAosOffset: 400,
-            position: 'relative', // Add relative positioning for the overlay
+            position: 'relative', // Position for the overlay
+            zIndex: 1, // Ensure it is above the overlay
             '&::before': {
               content: '""',
               position: 'absolute',
@@ -44,7 +46,7 @@ const NewsLetter = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: 'primary.main',
+              backgroundColor: theme.palette.primary.main,
               opacity: 0.8, // Adjust the opacity as needed
               zIndex: -1 // Place the overlay behind content
             }
@@ -65,12 +67,19 @@ const NewsLetter = () => {
                 mb: 2,
                 fontSize: { xs: '2rem', lg: '3rem' }, // Increased title size
                 fontWeight: 'bold',
-                color: 'white'
+                color: 'common.white'
               }}
             >
-              Start mining now
+              Start Mining Now
             </Typography>
-            <Typography variant="body1" sx={{ maxWidth: { xs: '100%', lg: 348 }, mb: 4, color: 'skyblue' }}>
+            <Typography
+              variant="body1"
+              sx={{
+                maxWidth: { xs: '100%', lg: 348 },
+                mb: 4,
+                color: 'common.white'
+              }}
+            >
               Join now with Jet Algo Trading to get the latest news and start mining now.
             </Typography>
           </Box>
@@ -93,18 +102,18 @@ const NewsLetter = () => {
               sx={{
                 input: {
                   borderBottom: `1px solid ${theme.palette.common.white}`,
-                  color: 'white'
+                  color: 'common.white'
                 },
                 mb: { xs: 2, lg: 0 },
-                width: { xs: '100%', lg: '100%' }
+                width: { xs: '100%', lg: 'auto' }
               }}
             />
             <Button
               variant="contained"
               color="secondary"
               sx={{
-                paddingX: 8,
-                paddingY: 2,
+                px: 8,
+                py: 2,
                 borderRadius: '20px', // Rounded corners
                 backgroundColor: 'common.white',
                 color: 'primary.main',

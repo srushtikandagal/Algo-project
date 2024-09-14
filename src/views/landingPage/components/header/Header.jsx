@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { AppBar, Box, Container, IconButton, Toolbar, Button, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from 'react-router-dom';
 
 const Header = ({ setNavMobile }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -11,6 +13,33 @@ const Header = ({ setNavMobile }) => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const navButtonStyles = {
+    color: 'text.primary',
+    borderRadius: 1,
+    px: 2,
+    py: 1,
+    textTransform: 'none',
+    '&:hover': {
+      color: 'primary.main'
+    },
+    '&:focus': {
+      outline: 'none',
+      borderBottom: '2px solid',
+      borderColor: 'primary.main',
+      color: 'primary.main'
+    }
+  };
+
+  const navMenuItemStyles = {
+    '&:hover': {
+      color: 'primary.main'
+    },
+    '&:focus': {
+      borderColor: 'primary.main',
+      outline: 'none'
+    }
   };
 
   return (
@@ -26,152 +55,56 @@ const Header = ({ setNavMobile }) => {
       <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           {/* Logo */}
-          <Box component="a" href="#home" sx={{ display: 'flex', justifyContent: 'left', alignItems: 'center', textDecoration: 'none' }}>
-            <Box component="span" sx={{ fontSize: { md: '24px', xs: '18px' }, fontWeight: 'bold', color: 'text.primary' }}>
-              Jet Algo Trading
-            </Box>
+          <Box
+            component="a"
+            href="#home"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration: 'none',
+              fontSize: { md: '24px', xs: '18px' },
+              fontWeight: 'bold',
+              color: 'text.primary'
+            }}
+          >
+            Jet Algo Trading
           </Box>
 
           {/* Desktop Navigation */}
           <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1 }}>
-            <Button
-              href="#home"
-              sx={{
-                color: 'text.primary',
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                borderRadius: 1,
-                px: 2,
-                py: 1,
-                textTransform: 'none',
-                '&:focus': {
-                  outline: 'none',
-                  borderBottom: '2px solid primary.main',
-                  color: 'primary.main'
-                }
-              }}
-            >
+            <Button href="#home" sx={navButtonStyles}>
               Home
             </Button>
-            <Button
-              href="#why"
-              sx={{
-                color: 'text.primary',
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                borderRadius: 1,
-                px: 2,
-                py: 1,
-                textTransform: 'none',
-                '&:focus': {
-                  outline: 'none',
-                  borderBottom: '2px solid primary.main',
-                  color: 'primary.main'
-                }
-              }}
-            >
+            <Button href="#why" sx={navButtonStyles}>
               Why
             </Button>
-            <Button
-              href="#trade"
-              sx={{
-                color: 'text.primary',
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                borderRadius: 1,
-                px: 2,
-                py: 1,
-                textTransform: 'none',
-                '&:focus': {
-                  outline: 'none',
-                  borderBottom: '2px solid primary.main',
-                  color: 'primary.main'
-                }
-              }}
-            >
+            <Button href="#trade" sx={navButtonStyles}>
               Trade
             </Button>
-            <Button
-              href="#features"
-              sx={{
-                color: 'text.primary',
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                borderRadius: 1,
-                px: 2,
-                py: 1,
-                textTransform: 'none',
-                '&:focus': {
-                  outline: 'none',
-                  borderBottom: '2px solid primary.main',
-                  color: 'primary.main'
-                }
-              }}
-            >
+            <Button href="#features" sx={navButtonStyles}>
               Features
             </Button>
-            <Button
-              href="#newsletter"
-              sx={{
-                color: 'text.primary',
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                borderRadius: 1,
-                px: 2,
-                py: 1,
-                textTransform: 'none',
-                '&:focus': {
-                  outline: 'none',
-                  borderBottom: '2px solid primary.main',
-                  color: 'primary.main'
-                }
-              }}
-            >
+            <Button href="#newsletter" sx={navButtonStyles}>
               NewsLetter
             </Button>
             <Button
-              href="#footer"
-              sx={{
-                color: 'text.primary',
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                borderRadius: 1,
-                px: 2,
-                py: 1,
-                textTransform: 'none',
-                '&:focus': {
-                  outline: 'none',
-                  borderBottom: '2px solid primary.main',
-                  color: 'primary.main'
-                }
-              }}
-            >
-              Footer
-            </Button>
-            <Button
-              href="#login"
               sx={{
                 color: 'white',
                 backgroundColor: 'primary.main',
-                '&:hover': {
-                  backgroundColor: 'primary.dark'
-                },
                 borderRadius: '50px',
                 px: 3,
                 py: 1,
                 textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: 'primary.dark'
+                },
                 '&:focus': {
                   outline: 'none'
                 }
               }}
+              onClick={() => navigate('/login')}
             >
-              Register
+              Login
             </Button>
           </Box>
 
@@ -182,101 +115,20 @@ const Header = ({ setNavMobile }) => {
 
           {/* Mobile Menu */}
           <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} sx={{ display: { md: 'none' } }}>
-            <MenuItem
-              onClick={handleMenuClose}
-              component="a"
-              href="#home"
-              sx={{
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                '&:focus': {
-                  borderColor: 'primary.main',
-                  outline: 'none'
-                }
-              }}
-            >
+            <MenuItem onClick={handleMenuClose} component="a" href="#home" sx={navMenuItemStyles}>
               Home
             </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component="a"
-              href="#why"
-              sx={{
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                '&:focus': {
-                  borderColor: 'primary.main',
-                  outline: 'none'
-                }
-              }}
-            >
+            <MenuItem onClick={handleMenuClose} component="a" href="#why" sx={navMenuItemStyles}>
               Why
             </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component="a"
-              href="#trade"
-              sx={{
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                '&:focus': {
-                  borderColor: 'primary.main',
-                  outline: 'none'
-                }
-              }}
-            >
+            <MenuItem onClick={handleMenuClose} component="a" href="#trade" sx={navMenuItemStyles}>
               Trade
             </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component="a"
-              href="#features"
-              sx={{
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                '&:focus': {
-                  borderColor: 'primary.main',
-                  outline: 'none'
-                }
-              }}
-            >
+            <MenuItem onClick={handleMenuClose} component="a" href="#features" sx={navMenuItemStyles}>
               Features
             </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component="a"
-              href="#newsletter"
-              sx={{
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                '&:focus': {
-                  borderColor: 'primary.main',
-                  outline: 'none'
-                }
-              }}
-            >
+            <MenuItem onClick={handleMenuClose} component="a" href="#newsletter" sx={navMenuItemStyles}>
               NewsLetter
-            </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component="a"
-              href="#footer"
-              sx={{
-                '&:hover': {
-                  color: 'primary.main'
-                },
-                '&:focus': {
-                  borderColor: 'primary.main',
-                  outline: 'none'
-                }
-              }}
-            >
-              Footer
             </MenuItem>
           </Menu>
         </Toolbar>

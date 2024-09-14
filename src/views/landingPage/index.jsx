@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Drawer, CssBaseline } from '@mui/material';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
+import { Box, Drawer, CssBaseline, CircularProgress } from '@mui/material';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 
-import Hero from './components/hero/Hero';
-import Header from './components/header/Header';
-import NavMobile from './components/nav/NavMobile';
-import Stats from './components/stats/Stats';
-import Why from './components/stats/Why';
-import Trade from './components/sections/Trade';
-import Calculate from './components/sections/Calculate';
-import Features from './components/sections/Features';
-import NewsLetter from './components/sections/NewsLetter';
-import Footer from './components/sections/Footer';
+// Lazy-load components
+const Hero = lazy(() => import('./components/hero/Hero'));
+const Header = lazy(() => import('./components/header/Header'));
+const NavMobile = lazy(() => import('./components/nav/NavMobile'));
+const Stats = lazy(() => import('./components/stats/Stats'));
+const Why = lazy(() => import('./components/stats/Why'));
+const Trade = lazy(() => import('./components/sections/Trade'));
+const Features = lazy(() => import('./components/sections/Features'));
+const NewsLetter = lazy(() => import('./components/sections/NewsLetter'));
+const Footer = lazy(() => import('./components/sections/Footer'));
 
 function App() {
   const [navMobile, setNavMobile] = useState(false);
@@ -28,44 +28,48 @@ function App() {
   return (
     <Box sx={{ overflow: 'hidden' }}>
       <CssBaseline />
-      <Header setNavMobile={setNavMobile} />
 
-      <Hero />
+      {/* Wrap components with Suspense for lazy loading */}
+      <Suspense fallback={<CircularProgress sx={{ position: 'fixed', top: '50%', left: '50%' }} />}>
+        <Header setNavMobile={setNavMobile} />
 
-      <Drawer
-        anchor="right"
-        open={navMobile}
-        onClose={() => setNavMobile(false)}
-        transitionDuration={{ enter: 300, exit: 200 }}
-        sx={{
-          '& .MuiDrawer-paper': {
-            width: '250px',
-            boxShadow: '2px 0 5px rgba(0, 0, 0, 0.2)',
-            transition: 'transform 0.3s ease-in-out'
-          }
-        }}
-      >
-        <NavMobile setNavMobile={setNavMobile} />
-      </Drawer>
+        <Hero />
 
-      <Box id="home">
-        <Stats />
-      </Box>
-      <Box id="why">
-        <Why />
-      </Box>
-      <Box id="trade">
-        <Trade />
-      </Box>
-      <Box id="features">
-        <Features />
-      </Box>
-      <Box id="newsletter">
-        <NewsLetter />
-      </Box>
-      <Box id="footer">
-        <Footer />
-      </Box>
+        <Drawer
+          anchor="right"
+          open={navMobile}
+          onClose={() => setNavMobile(false)}
+          transitionDuration={{ enter: 300, exit: 200 }}
+          sx={{
+            '& .MuiDrawer-paper': {
+              width: '250px',
+              boxShadow: '2px 0 5px rgba(0, 0, 0, 0.2)',
+              transition: 'transform 0.3s ease-in-out'
+            }
+          }}
+        >
+          <NavMobile setNavMobile={setNavMobile} />
+        </Drawer>
+
+        <Box id="home">
+          <Stats />
+        </Box>
+        <Box id="why">
+          <Why />
+        </Box>
+        <Box id="trade">
+          <Trade />
+        </Box>
+        <Box id="features">
+          <Features />
+        </Box>
+        <Box id="newsletter">
+          <NewsLetter />
+        </Box>
+        <Box id="footer">
+          <Footer />
+        </Box>
+      </Suspense>
     </Box>
   );
 }

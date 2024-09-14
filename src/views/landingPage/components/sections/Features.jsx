@@ -12,14 +12,14 @@ const Features = () => {
       component="section"
       sx={{
         pt: { xs: 6, lg: 12 },
-        backgroundColor: 'background.default',
-        py: { xs: 6, lg: 12 }
+        pb: { xs: 6, lg: 12 },
+        backgroundColor: 'background.default'
       }}
     >
       <Container maxWidth="lg">
         <Box textAlign="center" mb={6}>
           <Typography variant="h1" component="h2" sx={{ mb: 6 }} data-aos="fade-up" data-aos-offset="100">
-            Market Sentiments, portfolio, and run the infrastructure of your choice.
+            Market Sentiments, Portfolio Management, and Infrastructure Control
           </Typography>
         </Box>
         <FeatureSection1 />

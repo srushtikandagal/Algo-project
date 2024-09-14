@@ -8,12 +8,12 @@ const FeatureSection1 = () => {
   return (
     <Box
       sx={{
-        paddingBottom: { xs: '30px', lg: '120px' },
-        paddingTop: 0,
+        pt: 0,
+        pb: { xs: 6, lg: 15 }, // Adjusted padding for better spacing
         display: 'flex',
         flexDirection: { xs: 'column', lg: 'row' },
         gap: { xs: 6, lg: 10 },
-        alignItems: 'center', // Ensures vertical centering
+        alignItems: 'center',
         textAlign: { xs: 'center', lg: 'left' },
         dataAos: 'fade-right',
         dataAosOffset: 400
@@ -22,8 +22,7 @@ const FeatureSection1 = () => {
       {/* Text Section */}
       <Box
         sx={{
-          maxWidth: '454px',
-          marginBottom: { xs: 6, lg: 0 }, // Ensure proper margin
+          maxWidth: { xs: '100%', lg: '454px' }, // Ensure proper width on smaller screens
           textAlign: { xs: 'center', lg: 'left' },
           'data-aos': 'fade-right',
           'data-aos-offset': 400
@@ -34,7 +33,7 @@ const FeatureSection1 = () => {
           component="h3"
           gutterBottom
           sx={{
-            fontSize: { xs: '2rem', lg: '2.5rem' }, // Increased text size for heading
+            fontSize: { xs: '2rem', lg: '2.5rem' },
             fontWeight: 'bold'
           }}
         >
@@ -45,19 +44,21 @@ const FeatureSection1 = () => {
           color="text.secondary"
           gutterBottom
           sx={{
-            fontSize: { xs: '1rem', lg: '1rem' } // Increased body text size
+            fontSize: { xs: '1rem', lg: '1rem' },
+            mb: 2 // Added margin-bottom for spacing
           }}
         >
-          Get full statistic information about the behaviour of buyer and seller will help you to make the decision.
+          Get full statistic information about the behavior of buyers and sellers to help you make informed decisions.
         </Typography>
         <Button
           variant="contained"
           color="primary"
           sx={{
-            paddingX: 8,
-            marginTop: { xs: 4, lg: 2 },
-            display: { xs: 'block', lg: 'inline-block' }, // Ensures it centers on small screens
-            margin: { xs: '0 auto', lg: 0 } // Centers the button on small screens
+            px: 4,
+            py: 1,
+            mt: { xs: 4, lg: 2 },
+            display: 'inline-block',
+            mx: { xs: 'auto', lg: 0 } // Center button on small screens
           }}
         >
           Learn More
@@ -69,7 +70,7 @@ const FeatureSection1 = () => {
         sx={{
           flex: 1,
           display: 'flex',
-          justifyContent: { xs: 'center', lg: 'flex-end' }, // Center image on smaller screens
+          justifyContent: { xs: 'center', lg: 'flex-end' },
           'data-aos': 'fade-left',
           'data-aos-offset': 400
         }}

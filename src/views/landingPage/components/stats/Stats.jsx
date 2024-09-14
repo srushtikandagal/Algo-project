@@ -45,9 +45,9 @@ const Stats = () => {
                   }}
                 >
                   {/* Using CountUp for number animation */}
-                  {inView && <CountUp start={0} end={30} decimals={1} prefix="$" suffix="B" duration={4} />}
+                  {inView && <CountUp start={0} end={100} decimals={1} prefix="₹" suffix="cr" duration={4} />}
                 </Typography>
-                <Typography>Digital Currency Exchanged</Typography>
+                <Typography>Trade Across Market</Typography>
               </Box>
             </Box>
           </Grid>
@@ -82,7 +82,7 @@ const Stats = () => {
                   }}
                 >
                   {/* Using CountUp for number animation */}
-                  {inView && <CountUp start={0} end={10} decimals={0} suffix="M+" duration={4} />}
+                  {inView && <CountUp start={0} end={7.7} decimals={1} suffix="M+" duration={7} />}
                 </Typography>
                 <Typography>Trusted Wallets Investor</Typography>
               </Box>

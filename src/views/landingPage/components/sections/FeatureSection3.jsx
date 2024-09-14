@@ -6,7 +6,7 @@ const FeatureSection3 = () => {
   return (
     <Box
       sx={{
-        paddingY: { xs: '30px', lg: '120px' },
+        py: { xs: 6, lg: 15 }, // Adjusted padding for consistency
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
@@ -20,7 +20,8 @@ const FeatureSection3 = () => {
           justifyContent: 'center',
           gap: { xs: 4, lg: 10 }, // Gap between text and image
           maxWidth: '1200px', // Adjust max width if needed
-          width: '100%'
+          width: '100%',
+          textAlign: { xs: 'center', lg: 'left' }
         }}
       >
         {/* Text Section */}
@@ -30,7 +31,8 @@ const FeatureSection3 = () => {
             order: { xs: 2, lg: 1 }, // Text on the left on larger screens
             textAlign: { xs: 'center', lg: 'left' },
             dataAos: 'fade-right',
-            dataAosOffset: 400
+            dataAosOffset: 400,
+            mb: { xs: 4, lg: 0 } // Margin bottom for small screens
           }}
         >
           <Typography
@@ -38,18 +40,20 @@ const FeatureSection3 = () => {
             component="h4"
             gutterBottom
             sx={{
-              fontSize: { xs: '2rem', lg: '2.5rem' }, // Increased text size
-              fontWeight: 'bold'
+              fontSize: { xs: '2rem', lg: '2.5rem' },
+              fontWeight: 'bold',
+              mb: 2 // Margin bottom for spacing
             }}
           >
-            Grow your profit and track your investments
+            Grow Your Profit and Track Your Investments
           </Typography>
           <Typography
             variant="body1"
             color="text.secondary"
             gutterBottom
             sx={{
-              fontSize: { xs: '1rem', lg: '1.125rem' } // Increased body text size
+              fontSize: { xs: '1rem', lg: '1.125rem' },
+              mb: 2 // Margin bottom for spacing
             }}
           >
             Use advanced analytical tools. Clear TradingView charts let you track current and historical profit investments.
@@ -58,10 +62,11 @@ const FeatureSection3 = () => {
             variant="contained"
             color="primary"
             sx={{
-              paddingX: 8,
+              px: 4,
+              py: 1,
               display: 'block',
-              margin: { xs: '0 auto', lg: 0 }, // Center button on small screens
-              marginBottom: { xs: 6, lg: 0 } // Margin adjustments
+              mx: { xs: 'auto', lg: 0 }, // Center button on small screens
+              mb: { xs: 6, lg: 0 } // Margin bottom for small screens
             }}
           >
             Learn More

@@ -19,7 +19,7 @@ const Footer = () => {
         mt: { xs: 0, lg: -10 }
       }}
       data-aos="fade-up"
-      data-aos-offset="400"
+      data-aos-offset="100"
     >
       <Container maxWidth="lg">
         <Box
